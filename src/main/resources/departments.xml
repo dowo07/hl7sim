@@ -1,0 +1,29 @@
+<Departments>
+  <Department Name="INN" Ward="INN-1" />
+  <Department Name="INN" Ward="INN-2" />
+  <Department Name="INN" Ward="INN-3" />
+  <Department Name="UCH" Ward="UCH-1" />
+  <Department Name="UCH" Ward="UCH-2" />
+  <Department Name="UCH" Ward="UCH-3" />
+  <Department Name="NEU" Ward="NEU-1" />
+  <Department Name="NEU" Ward="NEU-2" />
+  <Department Name="NEU" Ward="NEU-3" />
+  <Department Name="URO" Ward="URO-1" />
+  <Department Name="URO" Ward="URO-2" />
+  <Department Name="URO" Ward="URO-3" />
+  <Department Name="KAR" Ward="KAR-1" />
+  <Department Name="KAR" Ward="KAR-2" />
+  <Department Name="KAR" Ward="KAR-3" />
+  <Department Name="HNO" Ward="HNO-1" />
+  <Department Name="HNO" Ward="HNO-2" />
+  <Department Name="HNO" Ward="HNO-3" />
+  <Department Name="ACH" Ward="ACH-1" />
+  <Department Name="ACH" Ward="ACH-2" />
+  <Department Name="ACH" Ward="ACH-3" />
+  <Department Name="AUG" Ward="AUG-1" />
+  <Department Name="AUG" Ward="AUG-2" />
+  <Department Name="AUG" Ward="AUG-3" />
+  <Department Name="DER" Ward="DER-1" />
+  <Department Name="DER" Ward="DER-2" />
+  <Department Name="DER" Ward="DER-3" />
+</Departments>
