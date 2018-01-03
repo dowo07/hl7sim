@@ -36,7 +36,7 @@ public class PatientRepositoryMySqlImplTest {
 
 	Wards testWards;
 
-	PatientRepository testPatientRepository;
+	PatientRepositoryMySqlImpl testPatientRepository;
 
 	@Before
 	public void setUp() throws Exception {
@@ -56,7 +56,7 @@ public class PatientRepositoryMySqlImplTest {
 
 		testConnection = new MySqlConnection();
 		
-		testPatientRepository = new PatientRepositoryMySqlImpl(testConnection, testPatientGenerator);
+		testPatientRepository = new PatientRepositoryMySqlImpl(testPatientGenerator);
 		
 	}
 
@@ -96,13 +96,6 @@ public class PatientRepositoryMySqlImplTest {
 
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testInsertPatientWitIncompletePatient() {
-
-		testPatient.setFirstname("");
-
-		testPatientRepository.insertPatient(testPatient);
-	}
 
 	@Test
 	public void testTransferRandomPatient() {

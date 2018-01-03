@@ -73,7 +73,6 @@ public class PatientGeneratorImpl implements PatientGenerator {
 	@Override
 	public Patient randomizeNewPatient() {
 		return new Patient.Builder()
-				.id()
 				.lastname(getRandomLastName())
 				.firstname(getRandomFirstName())
 				.gender(getRandomGender())

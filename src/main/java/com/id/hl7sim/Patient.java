@@ -3,7 +3,7 @@ package com.id.hl7sim;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 public class Patient {
 
@@ -137,8 +137,8 @@ public class Patient {
 
 	public static class Builder {
 		
-		private static final AtomicInteger count = new AtomicInteger(0);
-		private static final AtomicInteger countTwo = new AtomicInteger(0);
+//		private static final AtomicInteger count = new AtomicInteger(0);
+//		private static final AtomicInteger countTwo = new AtomicInteger(0);
 		private int id;
 		private int caseId;
 		private String lastname;
@@ -154,13 +154,13 @@ public class Patient {
 		private LocalDateTime dischargeDateTime;
 		private int lengthOfStay;
 
-		public Builder id() {
-			this.id = count.incrementAndGet();
+		public Builder id(int id) {
+			this.id = id;
 			return this;
 		}
 
 		public Builder caseId(int caseId) {
-			this.caseId = countTwo.incrementAndGet();
+			this.caseId = caseId;
 			return this;
 		}
 
@@ -249,7 +249,7 @@ public class Patient {
 	
 	public static Patient newInstance(Patient patient) {
 		return new Patient.Builder()
-				.id()
+				.id(patient.getId())
 				.caseId(patient.getCaseId())
 				.lastname(patient.getLastname())
 				.firstname(patient.getFirstname())

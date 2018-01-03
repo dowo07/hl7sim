@@ -20,7 +20,7 @@ public class HospitalImplTest {
 	DatabaseConnection testConnection;
 
 	List<String> testAllHl7s;
-
+ 
 	Hospital testHospital;
 	
 	List<Patient> testBothPatients;
@@ -44,7 +44,7 @@ public class HospitalImplTest {
 		Mockito.when(testHl7builder.createMessage(Mockito.<Patient>any(), Mockito.<Type>any(), Mockito.<Format>any()))
 				.thenReturn("||||");
 
-		testPatientRepository = new PatientRepositoryMySqlImpl(testConnection, testPatientGenerator);
+		testPatientRepository = new PatientRepositoryMySqlImpl(testPatientGenerator);
 
 		testHospital = new HospitalImpl(10, testHl7builder, testPatientRepository);
 

@@ -13,8 +13,8 @@ public class MySqlConnection implements DatabaseConnection {
 	public static final String DB_CONNECTION = "jdbc:mysql://localhost/new_schema?verifyServerCertificate=false&useSSL=true";
 	public static final String DB_USER = "root";
 	public static final String DB_PASSWORD = "root";
-
-	
+ 
+	 
 	/* (non-Javadoc)
 	 * @see com.id.hl7sim.DatabaseConnection#getDBConnection()
 	 */

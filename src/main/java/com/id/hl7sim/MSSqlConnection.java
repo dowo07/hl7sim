@@ -9,13 +9,8 @@ public class MSSqlConnection implements DatabaseConnection {
 	private static final String DB_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	private static final String DB_CONNECTION = "jdbc:sqlserver://localhost:1433;databaseName=HL7Sim;user=scorer;password=scorer";
 
-
-
-	/* (non-Javadoc)
-	 * @see com.id.hl7sim.DatabaseConnection#getDBConnection()
-	 */
-	@Override
-	public Connection getDBConnection() {
+	
+	public Connection getDBConnection() { 
 		Connection dbConnection = null;
 		try {
 			Class.forName(DB_DRIVER);

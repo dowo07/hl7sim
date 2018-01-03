@@ -204,7 +204,7 @@ public class HL7BuilderImpl implements HL7Builder {
 
 	private void setPidSegment(PID pid, Patient patient) throws DataTypeException {
 		pid.getPatientIdentifierList(0).getCx1_ID().setValue(String.valueOf(patient.getId()));
-		pid.getAdministrativeSex().setValue(patient.getGender().toString());
+		pid.getAdministrativeSex().setValue(patient.getGender());
 		pid.getPatientName(0).getGivenName().setValue(patient.getFirstname());
 		pid.getPatientName(0).getFamilyName().getSurname().setValue(patient.getLastname());
 		pid.getDateTimeOfBirth().getTimeOfAnEvent().setDatePrecision(patient.getBirthday().getYear(),

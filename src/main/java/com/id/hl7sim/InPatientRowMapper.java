@@ -7,14 +7,13 @@ import java.time.format.DateTimeFormatter;
 
 import org.springframework.jdbc.core.RowMapper;
 
-
 public class InPatientRowMapper implements RowMapper<Patient> {
 	
-	
-	
 	public Patient mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
 		return new Patient.Builder()
-				.id()
+				.caseId(rs.getInt("case"))
+				.id(rs.getInt("id"))
 				.ward(rs.getString("ward"))
 				.department(rs.getString("department"))
 				.admissionDateTime(parseLocalDateTime(rs.getString("admissionDate")))
@@ -29,16 +28,6 @@ public class InPatientRowMapper implements RowMapper<Patient> {
 		return formattedLocalDateTime;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-}	
 
 	
-	
+}		

@@ -11,7 +11,7 @@ public class PatientRowMapper implements RowMapper<Patient> {
 	
 	public Patient mapRow(ResultSet rs, int rowNum) throws SQLException {
 		return new Patient.Builder()
-				.id()
+				.id(rs.getInt("id"))
 				.lastname(rs.getString("lastname"))
 				.firstname(rs.getString("firstname"))
 				.gender(rs.getString("gender"))
@@ -29,7 +29,7 @@ public class PatientRowMapper implements RowMapper<Patient> {
 	
 	
 	
-	
+	 
 	
 	
 	

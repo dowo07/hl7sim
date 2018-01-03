@@ -10,9 +10,10 @@ import com.id.hl7sim.xml.Firstnames;
 import com.id.hl7sim.xml.Lastnames;
 import com.id.hl7sim.xml.Wards;
 
-public class App {
-
-	public static void main(String[] args) {
+public class App { 
+	
+	
+	public static void main(String[] args) { 
 		
 		Departments departments = JAXB.unmarshal(ClassLoader.getSystemResource("departments.xml"), Departments.class);
 		Wards wards = JAXB.unmarshal(ClassLoader.getSystemResource("wards.xml"), Wards.class);
@@ -21,25 +22,10 @@ public class App {
 		
 		PatientGenerator myGenerator = new PatientGeneratorImpl(firstnames, lastnames, departments, wards);
 		
-		List<Patient> allPatients = myGenerator.createRandomPatients(50);
+		List<Patient> allPatients = myGenerator.createRandomPatients(100);
 		
-		DatabaseConnection myConnection = new MySqlConnection();
-		
-		PatientRepository myPatientRepository = null;
-		
-	
-        switch (myConnection.getClass().toString()) { 
-            case "class com.id.hl7sim.MSSqlConnection":  
-            	myPatientRepository = new PatientRepositoryMSSqlImpl(myConnection, myGenerator);
-            	break;
-            case "class com.id.hl7sim.MySqlConnection":	
-            	myPatientRepository = new PatientRepositoryMySqlImpl(myConnection, myGenerator);
-            	break;
-            default:
-            	throw new IllegalArgumentException("Database Type not possible");
-            	
-        }     
-            	
+		PatientRepository myPatientRepository = new PatientRepositoryMySqlImpl(myGenerator);    
+        
 		myPatientRepository.insertListOfPatients(allPatients);
 		
 		HL7Builder myHl7Builder = new HL7BuilderImpl();
@@ -48,11 +34,11 @@ public class App {
 		
 		HL7Sender myHL7Sender = new HL7SenderImpl(hl7endpoint);
 		
-		Hospital myHospital = new HospitalImpl(10, myHl7Builder, myPatientRepository);
+		Hospital myHospital = new HospitalImpl(50, myHl7Builder, myPatientRepository);
 		
 		myHospital.autoFillHospital();
 		
-		for(int i = 0; i < 2; i++) {
+		for(int i = 0; i < 3; i++) {
 			
 			myHospital.dischargePatient();
 			myHospital.admitPatient();
@@ -63,5 +49,6 @@ public class App {
 		
 		myHL7Sender.sendListOfMessages(allHL7s);
 	}
+	
 	
 }
