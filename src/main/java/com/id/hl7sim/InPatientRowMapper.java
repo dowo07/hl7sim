@@ -12,7 +12,7 @@ public class InPatientRowMapper implements RowMapper<Patient> {
 	public Patient mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
 		return new Patient.Builder()
-				.caseId(rs.getInt("case"))
+				.instance(rs.getInt("instance"))
 				.id(rs.getInt("id"))
 				.ward(rs.getString("ward"))
 				.department(rs.getString("department"))
@@ -20,7 +20,7 @@ public class InPatientRowMapper implements RowMapper<Patient> {
 				.status(rs.getString("patientStatus"))
 				.build();	
 	}
-	
+	 
 	public LocalDateTime parseLocalDateTime(String localdatetime) {
 		localdatetime = localdatetime.replace("T", "");
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm:ss.SSS");
@@ -30,4 +30,4 @@ public class InPatientRowMapper implements RowMapper<Patient> {
 	
 
 	
-}		
+}		 

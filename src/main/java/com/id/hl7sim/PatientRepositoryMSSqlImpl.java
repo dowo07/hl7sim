@@ -1,234 +1,125 @@
 package com.id.hl7sim;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
 public class PatientRepositoryMSSqlImpl implements PatientRepository {
-	
-	
-	private DatabaseConnection connection;
+
+	@Autowired
+	private static JdbcTemplate template;
+
 	private PatientGenerator patientGenerator;
-
+ 
 	
-	public PatientRepositoryMSSqlImpl(DatabaseConnection connection, PatientGenerator patientGenerator) {
-		this.connection = connection;
+	public PatientRepositoryMSSqlImpl(PatientGenerator patientGenerator) {
 		this.patientGenerator = patientGenerator;
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.id.hl7sim.PatientRepository#insertPatient()
-	 */
-	@Override
-	public void insertPatient(Patient patient) {
-		if (!patient.isValid()) {
-			throw new IllegalArgumentException("Incomplete Patient");
-		} else {
-			String insert = "INSERT INTO tbl_patient(lastname, firstname, gender, birthday) VALUES('"
-			+ patient.getLastname() + "', '" + patient.getFirstname() + "', '" + patient.getGender() + "', '"
-			+ patient.getBirthday().toString() + "')";
-			try (Connection dbConnection = connection.getDBConnection();
-				 Statement statement = dbConnection.createStatement()) {
-				statement.executeUpdate(insert);
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-			}
-		}
+		DataSource source = getDataSource();
+		PatientRepositoryMSSqlImpl.template = new JdbcTemplate(source);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.id.hl7sim.PatientRepository#insertListOfPatients()
-	 */
-	@Override
+	public static DataSource getDataSource() {
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName(MSSqlConnection.DB_DRIVER);
+		dataSource.setUrl(MSSqlConnection.DB_CONNECTION);
+		return dataSource;
+	}
+
+	public void insertPatient(Patient patient) {
+		template.update("INSERT INTO tbl_patient(lastname, firstname, gender, birthday) VALUES(?,?,?,?)",
+				patient.getLastname(), patient.getFirstname(), patient.getGender(), patient.getBirthday().toString());
+	}
+
 	public void insertListOfPatients(List<Patient> allPatients) {
 		for (Patient patient : allPatients) {
-			insertPatient(patient); 
+			insertPatient(patient);
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.id.hl7sim.PatientRepository#getRandomPatient()
-	 */
-	@Override
-	public Patient getRandomPatient() {
-		Patient patient = new Patient.Builder().build();
-		String query = "SELECT TOP 1 * FROM tbl_patient ORDER BY NEWID()";
-		try (Connection dbConnection = connection.getDBConnection();
-			 Statement statement = dbConnection.createStatement();) {
-			ResultSet rs = statement.executeQuery(query);
-			rs.next();
-			setPatientBasicData(patient, rs);
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-		return patient;
-	}
-	
-	private void setPatientBasicData(Patient patient, ResultSet rs) {
-		try {
-			patient.setId(rs.getInt("id"));
-			patient.setLastname(rs.getString("lastname"));
-			patient.setFirstname(rs.getString("firstname"));
-			patient.setGender(rs.getString("gender"));
-			patient.setBirthday(parseBirthday(rs.getString("birthday")));
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-	}
-	
-	public LocalDate parseBirthday(String birthday) {
-		LocalDate localDate = LocalDate.parse(birthday);
-		return localDate;
-	}
-	
-	
 
-	public Patient getRandomInpatient() {
-		Patient patient = new Patient.Builder().build();
-		String query = "SELECT TOP 1 * FROM tbl_inpatients ip, tbl_patient p WHERE p.id = ip.id ORDER BY NEWID()";
-		try (Connection dbConnection = connection.getDBConnection();
-			 Statement statement = dbConnection.createStatement();) {
-			ResultSet rs = statement.executeQuery(query);
-			rs.next();
-			setPatientBasicData(patient, rs);
-			setPatientCaseData(patient, rs);
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
+	public Patient getRandomPatient() {
+		String sql = "SELECT TOP 1 * FROM tbl_patient ORDER BY NEWID()";
+		Patient patient = (Patient) template.queryForObject(sql, new PatientRowMapper());
 		return patient;
 	}
-	
-	public void setPatientCaseData(Patient patient, ResultSet rs) {
-		try {
-			patient.setWard(rs.getString("ward"));
-			patient.setDepartment(rs.getString("department"));
-			patient.setAdmissionDateTime(parseLocalDateTime(rs.getString("admissionDate")));
-			patient.setStatus(rs.getString("patientStatus"));
-			patient.setCaseId(rs.getInt("instance"));
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-	}
-	
-	public LocalDateTime parseLocalDateTime(String localdatetime) {
-		localdatetime = localdatetime.replace("T", "");
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm:ss.SSS");
-		LocalDateTime formattedLocalDateTime = LocalDateTime.parse(localdatetime, formatter);
-		return formattedLocalDateTime;
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.id.hl7sim.PatientRepository#transferRandomPatient()
-	 */
-	@Override
-	public Patient transferRandomPatient() {
-		Patient patient = getRandomInpatient();
-		patient.setPriorWard(patient.getWard());
-		patient.setPriorDepartment(patient.getPriorDepartment());
-		patient.setDepartment(patientGenerator.getRandomDepartment());
-		patient.setWard(patientGenerator.getRandomWard());
-		String update = "UPDATE tbl_inpatients SET ward='" + patient.getWard() + "', department='"
-				+ patient.getDepartment() + "' WHERE id='" + patient.getId() + "'";
-		try (Connection dbConnection = connection.getDBConnection();
-			 Statement statement = dbConnection.createStatement()) {
-			statement.executeUpdate(update);
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-		return patient;
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.id.hl7sim.PatientRepository#admitRandomPatient()
-	 */
-	@Override
+
 	public Patient admitRandomPatient() {
 		Patient patient = getRandomPatient();
 		patient.setDepartment(patientGenerator.getRandomDepartment());
 		patient.setWard(patientGenerator.getRandomWard());
 		patient.setAdmissionDateTime(LocalDateTime.now());
 		patient.setStatus("I");
-		String insert = "INSERT INTO tbl_inpatients(id, ward, department, admissionDate, patientStatus) VALUES('"
-						+ patient.getId() + "', '" + patient.getWard() + "', '" + patient.getDepartment() + "', '"
-						+ patient.getAdmissionDateTime().toString() + "', '" + patient.getStatus() + "')";
-		try (Connection dbConnection = connection.getDBConnection();
-			PreparedStatement statement = dbConnection.prepareStatement(insert)) {
-			statement.executeUpdate(insert, Statement.RETURN_GENERATED_KEYS);
-			ResultSet keys = statement.getGeneratedKeys();
-			keys.next();
-			patient.setCaseId(keys.getInt(1));
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
+		template.update(
+				"INSERT INTO tbl_inpatients(id, ward, department, admissionDate, patientStatus) VALUES(?,?,?,?,?)",
+				patient.getId(), patient.getWard(), patient.getDepartment(), patient.getAdmissionDateTime().toString(),
+				patient.getStatus());
 		return patient;
-	} 
+	}
 	
-	/* (non-Javadoc)
-	 * @see com.id.hl7sim.PatientRepository#dischargeRandomPatient()
-	 */
-	@Override
+	
+	public Patient getRandomInpatient() {
+		String sql = "SELECT TOP 1 * FROM tbl_inpatients ip, tbl_patient p WHERE p.id = ip.id ORDER BY NEWID()";
+		Patient patient = (Patient) template.queryForObject(sql, new Object[] {}, new InPatientRowMapper());
+		setPatientBasicData(patient);
+		return patient;
+	}
+	
+	public static Patient setPatientBasicData(Patient patient) {
+		String sql = "SELECT * FROM tbl_patient WHERE id = '" + patient.getId() + "'";
+		Patient patientNew = (Patient) template.queryForObject(sql, new Object[] {}, new PatientRowMapper());
+		patient.setLastname(patientNew.getLastname());
+		patient.setFirstname(patientNew.getFirstname());
+		patient.setGender(patientNew.getGender());
+		patient.setBirthday(patientNew.getBirthday());
+		return patient;
+	}
+	
+	public Patient transferRandomPatient() {
+		Patient patient = getRandomInpatient();
+		patient.setPriorWard(patient.getWard());
+		patient.setPriorDepartment(patient.getPriorDepartment());
+		patient.setDepartment(patientGenerator.getRandomDepartment());
+		patient.setWard(patientGenerator.getRandomWard());
+		template.update("UPDATE tbl_inpatients SET ward = ?, department = ? WHERE id = ?", patient.getWard(),
+				patient.getDepartment(), patient.getId());
+		return patient;
+	}
+
 	public Patient dischargeRandomPatient() {
 		Patient patient = getRandomInpatient();
 		patient.setDischargeDateTime(LocalDateTime.now());
 		insertFormerPatient(patient);
-		String delete = "DELETE FROM tbl_inpatients WHERE instance= '" + patient.getCaseId() + "'";
-		try (Connection dbConnection = connection.getDBConnection();
-		     Statement statement = dbConnection.createStatement()) {
-			statement.executeUpdate(delete);;
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
+		template.update("DELETE FROM tbl_inpatients WHERE instance= ?", patient.getInstance());
 		return patient;
 	}
-	
+
 	public void insertFormerPatient(Patient patient) {
-		String insert = "INSERT INTO tbl_formerpatients(instance, id, ward, department, admissionDate, dischargeDate) VALUES('"
-				+ patient.getCaseId() + "', '" + patient.getId() + "', '" + patient.getWard() + "', '"
-				+ patient.getDepartment() + "', '" + patient.getAdmissionDateTime().toString() + "', '"
-				+ patient.getDischargeDateTime().toString() + "')";
-		try (Connection dbConnection = connection.getDBConnection();
-				 Statement statement = dbConnection.createStatement()) {
-				statement.executeUpdate(insert);
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-			}
+		template.update(
+				"INSERT INTO tbl_formerpatients(instance, id, ward, department, admissionDate, dischargeDate) VALUES('"
+						+ patient.getInstance() + "', '" + patient.getId() + "', '" + patient.getWard() + "', '"
+						+ patient.getDepartment() + "', '" + patient.getAdmissionDateTime().toString() + "', '"
+						+ patient.getDischargeDateTime().toString() + "')");
+	}
+
+	public int countPatients() {
+		String sql = "SELECT COUNT(id) AS numberOfPatients FROM tbl_patient";
+		return template.queryForObject(sql, Integer.class);
 	}
 
 	public int countInpatients() {
-		int numberOfPatients = 0;
-		String query = "SELECT COUNT(id) AS numberOfPatients FROM tbl_inpatients";
-		try (Connection dbConnection = connection.getDBConnection();
-				Statement statement = dbConnection.createStatement();) {
-			ResultSet rs = statement.executeQuery(query);
-			while (rs.next()) {
-				numberOfPatients = rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-		return numberOfPatients;
-	}  
+		String sql = "SELECT COUNT(id) AS numberOfPatients FROM tbl_inpatients";
+		return template.queryForObject(sql, Integer.class);
+	}
+
+	public LocalDate parseBirthday(String birthday) {
+		LocalDate localDate = LocalDate.parse(birthday);
+		return localDate;
 	
-	public int countPatients() {
-		int numberOfPatients = 0;
-		String query = "SELECT COUNT(id) AS numberOfPatients FROM tbl_patient";
-		try (Connection dbConnection = connection.getDBConnection();
-				Statement statement = dbConnection.createStatement();) {
-			ResultSet rs = statement.executeQuery(query);
-			while (rs.next()) {
-				numberOfPatients = rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-		return numberOfPatients;
 	}
 
 }

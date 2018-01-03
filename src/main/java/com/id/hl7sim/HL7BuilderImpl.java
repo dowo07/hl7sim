@@ -35,7 +35,7 @@ public class HL7BuilderImpl implements HL7Builder {
 	}
 	
 	
-	public static int getMessageControlId() {
+	public static int getMessageControlId() { 
 		return messageControlId.get(); 
 	}
 
@@ -234,7 +234,7 @@ public class HL7BuilderImpl implements HL7Builder {
 		pv1.getAssignedPatientLocation().getPl1_PointOfCare().setValue(patient.getWard());
 		pv1.getAssignedPatientLocation().getPl4_Facility().getNamespaceID().setValue(patient.getDepartment());
 		pv1.getPatientClass().setValue(patient.getStatus());
-		pv1.getPv119_VisitNumber().getCx1_ID().setValue(String.valueOf(patient.getCaseId()));
+		pv1.getPv119_VisitNumber().getCx1_ID().setValue(String.valueOf(patient.getInstance()));
 	}
 
 	private void setPriorLocation(ADT_A02 adt, Patient patient) throws DataTypeException {

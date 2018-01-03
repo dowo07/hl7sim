@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import javax.xml.bind.JAXB;
 
 public class PatientRepositoryMSSqlImplTest {
-
+ 
 	
 	PatientRepository testPatientRepository;
 
@@ -31,9 +31,9 @@ public class PatientRepositoryMSSqlImplTest {
 	Patient testPatientTwo;
 
 	List<Patient> testBothPatients;
-
+ 
 	DatabaseConnection testConnection;
-
+ 
 	PatientGenerator testPatientGenerator;
 	
 	Firstnames testFirstnames;
@@ -46,9 +46,6 @@ public class PatientRepositoryMSSqlImplTest {
 	
 	PatientRepository myMock;
 
-	
-	
-	
 	@Before
 	public void setUp() throws Exception {
 
@@ -67,7 +64,7 @@ public class PatientRepositoryMSSqlImplTest {
 		
 		testConnection = new MSSqlConnection();
 		
-		testPatientRepository = new PatientRepositoryMSSqlImpl(testConnection, testPatientGenerator);
+		testPatientRepository = new PatientRepositoryMSSqlImpl(testPatientGenerator);
 		
 		testPatientRepository.admitRandomPatient();
 		
@@ -97,7 +94,7 @@ public class PatientRepositoryMSSqlImplTest {
 		testPatient = testPatientRepository.dischargeRandomPatient();
 
 		assertTrue(testPatient.isValid());
-		assertTrue(testPatient.getCaseId() != 0);
+		assertTrue(testPatient.getInstance() != 0);
 	}
 
 	@Test
@@ -110,21 +107,13 @@ public class PatientRepositoryMSSqlImplTest {
 		assertTrue(afterDischarge == beforeDischarge - 1);
 
 	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testInsertPatientWitIncompletePatient() {
-		
-		testPatient.setFirstname("");
-		
-		testPatientRepository.insertPatient(testPatient);
-	}
-		
+		 
 	@Test
 	public void testTransferRandomPatient() {
 
 		testPatient = testPatientRepository.transferRandomPatient();
 
-		assertTrue(testPatient.getDepartment() != testPatient.getPriorDepartment());
+		assertTrue(testPatient.getDepartment() != testPatient.getPriorDepartment()); 
 	}
 
 	@Test
@@ -157,12 +146,6 @@ public class PatientRepositoryMSSqlImplTest {
 	    	PatientRepository dao = mock(PatientRepository.class);
 	    	Mockito.doThrow(SQLException.class).when(dao).insertPatient(Mockito.any(Patient.class));
 	    	dao.insertPatient(testPatient);
-	    	
-	    	
 	}
 	
 }
-	    
-	       
-	 
-	

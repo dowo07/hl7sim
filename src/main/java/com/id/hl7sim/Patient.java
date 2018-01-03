@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class Patient {
 
 	private int id;
-	private int caseId;
+	private int instance;
 	private String lastname;
 	private String firstname;
 	private String gender;
@@ -23,19 +23,19 @@ public class Patient {
 	private int lengthOfStay;
 	
 	public int getId() {
-		return id;
+		return id; 
 	}
 
 	public void setId(int id) {
 		this.id = id;
 	} 
 
-	public int getCaseId() {
-		return caseId;
+	public int getInstance() {
+		return instance;
 	}
 
-	public void setCaseId(int caseId) {
-		this.caseId = caseId;
+	public void setInstance(int instance) {
+		this.instance = instance;
 	}
 
 	public String getLastname() {
@@ -140,7 +140,7 @@ public class Patient {
 //		private static final AtomicInteger count = new AtomicInteger(0);
 //		private static final AtomicInteger countTwo = new AtomicInteger(0);
 		private int id;
-		private int caseId;
+		private int instance;
 		private String lastname;
 		private String firstname;
 		private String gender;
@@ -159,8 +159,8 @@ public class Patient {
 			return this;
 		}
 
-		public Builder caseId(int caseId) {
-			this.caseId = caseId;
+		public Builder instance(int instance) {
+			this.instance = instance;
 			return this;
 		}
 
@@ -232,7 +232,7 @@ public class Patient {
 
 	private Patient(Builder builder) {
 		id = builder.id;
-		caseId = builder.caseId;
+		instance = builder.instance;
 		lastname = builder.lastname;
 		firstname = builder.firstname;
 		gender = builder.gender;
@@ -250,7 +250,7 @@ public class Patient {
 	public static Patient newInstance(Patient patient) {
 		return new Patient.Builder()
 				.id(patient.getId())
-				.caseId(patient.getCaseId())
+				.instance(patient.getInstance())
 				.lastname(patient.getLastname())
 				.firstname(patient.getFirstname())
 				.gender(patient.getGender())
@@ -276,7 +276,7 @@ public class Patient {
 	
 	@Override
 	public String toString() {
-		return "| ID: " + this.id + " |CASE-ID: " + this.caseId + " | NAME: " + this.firstname + " " + this.lastname
+		return "| ID: " + this.id + " |CASE-ID: " + this.instance + " | NAME: " + this.firstname + " " + this.lastname
 				+ " | BIRTHDAY: " + this.birthday + " | GENDER: " + this.gender + "\n" + "ADMISSION: "
 				+ this.admissionDateTime + " | DISCHARGE: " + this.dischargeDateTime + " |DEPARTMENT: "
 				+ this.department + " | WARD: " + this.ward + " | Status: " + this.status + " |Length of Stay: "

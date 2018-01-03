@@ -24,7 +24,7 @@ public class PatientRowMapper implements RowMapper<Patient> {
 		return localDate;
 	}
 	
-	
+	 
 	
 	
 	

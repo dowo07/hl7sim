@@ -2,7 +2,7 @@ package com.id.hl7sim;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.List; 
 
 import javax.sql.DataSource;
 
@@ -27,7 +27,7 @@ public class PatientRepositoryMySqlImpl implements PatientRepository {
 	public static DataSource getDataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(MySqlConnection.DB_DRIVER);
-		dataSource.setUrl(MySqlConnection.DB_CONNECTION);
+		dataSource.setUrl(MySqlConnection.DB_CONNECTION); 
 		dataSource.setUsername(MySqlConnection.DB_USER);
 		dataSource.setPassword(MySqlConnection.DB_PASSWORD);
 		return dataSource;
@@ -96,14 +96,14 @@ public class PatientRepositoryMySqlImpl implements PatientRepository {
 		Patient patient = getRandomInpatient();
 		patient.setDischargeDateTime(LocalDateTime.now());
 		insertFormerPatient(patient);
-		template.update("DELETE FROM tbl_inpatients WHERE `case`= ?", patient.getCaseId());
+		template.update("DELETE FROM tbl_inpatients WHERE `instance`= ?", patient.getInstance());
 		return patient;
 	}
 
 	public void insertFormerPatient(Patient patient) {
 		template.update(
-				"INSERT INTO tbl_formerpatients(`case`, `id`, ward, department, admissionDate, dischargeDate) VALUES('"
-						+ patient.getCaseId() + "', '" + patient.getId() + "', '" + patient.getWard() + "', '"
+				"INSERT INTO tbl_formerpatients(`instance`, `id`, ward, department, admissionDate, dischargeDate) VALUES('"
+						+ patient.getInstance() + "', '" + patient.getId() + "', '" + patient.getWard() + "', '"
 						+ patient.getDepartment() + "', '" + patient.getAdmissionDateTime().toString() + "', '"
 						+ patient.getDischargeDateTime().toString() + "')");
 	}

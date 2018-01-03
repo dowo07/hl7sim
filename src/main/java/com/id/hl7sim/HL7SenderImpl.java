@@ -36,7 +36,7 @@ public class HL7SenderImpl implements HL7Sender {
 			writer = new BufferedWriter(new FileWriter(logFile));
 			for (String hl7message : allHL7s) {
 				writer.write(hl7message);
-			}
+			} 
 			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();

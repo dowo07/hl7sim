@@ -11,7 +11,7 @@ import com.id.hl7sim.xml.Lastnames;
 import com.id.hl7sim.xml.Wards;
 
 public class App { 
-	
+	 
 	
 	public static void main(String[] args) { 
 		
@@ -24,7 +24,7 @@ public class App {
 		
 		List<Patient> allPatients = myGenerator.createRandomPatients(100);
 		
-		PatientRepository myPatientRepository = new PatientRepositoryMySqlImpl(myGenerator);    
+		PatientRepository myPatientRepository = new PatientRepositoryMSSqlImpl(myGenerator);    
         
 		myPatientRepository.insertListOfPatients(allPatients);
 		
