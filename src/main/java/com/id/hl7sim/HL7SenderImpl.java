@@ -18,7 +18,7 @@ public class HL7SenderImpl implements HL7Sender {
 	  super();
 	  this.endpoint = endpoint;
 	}
-
+  
 	/* (non-Javadoc)
 	 * @see com.id.hl7sim.HL7Sender#writeLogFile(java.util.List)
 	 */

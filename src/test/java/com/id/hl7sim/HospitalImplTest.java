@@ -30,6 +30,8 @@ public class HospitalImplTest {
 	PatientGenerator testPatientGenerator;
 	
 	DataSource testDataSource;
+	
+	HL7Sender testSender;
 
 	
 	@Before
@@ -52,18 +54,18 @@ public class HospitalImplTest {
 		
 		testPatientRepository = new PatientRepositoryMySqlImpl(testDataSource, testPatientGenerator);
 
-		testHospital = new HospitalImpl(10, testHl7builder, testPatientRepository);
-
+		testHospital = new HospitalImpl(10, testHl7builder, testSender, testPatientRepository);
+ 
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testHospitalWithTooLessBeds() {
-		testHospital = new HospitalImpl(3, testHl7builder, testPatientRepository);
+		testHospital = new HospitalImpl(3, testHl7builder, testSender, testPatientRepository);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testHospitalWithTooManyBeds() {
-		testHospital = new HospitalImpl(1001, testHl7builder, testPatientRepository);
+		testHospital = new HospitalImpl(1001, testHl7builder, testSender, testPatientRepository);
 	}
 
 	@Test

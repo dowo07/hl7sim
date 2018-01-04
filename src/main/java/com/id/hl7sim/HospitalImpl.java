@@ -8,9 +8,9 @@ public class HospitalImpl implements Hospital {
 	private static int occupiedBeds;
 	private HL7Builder builder;
 	private PatientRepository repository;
-
+	public HL7Sender sender;
 	
-	public HospitalImpl(int capacity, HL7Builder builder, PatientRepository patientRepository) {
+	public HospitalImpl(int capacity, HL7Builder builder, HL7Sender sender, PatientRepository patientRepository) {
 		if(capacity < 10 || capacity > 1000) {
 			throw new IllegalArgumentException("Hospital with that value of beds not possible");
 		}
@@ -19,10 +19,11 @@ public class HospitalImpl implements Hospital {
 		}
 		HospitalImpl.occupiedBeds = 0;
 		this.builder = builder;
+		this.sender = sender;
 		this.repository = patientRepository;
 	}
 
-	
+	 
 	public int getCapacity() {
 		return capacity;
 	}
@@ -65,7 +66,8 @@ public class HospitalImpl implements Hospital {
 		if (freeBedsCheck()) {
 			Patient patient = repository.admitRandomPatient();
 			addPatient();
-			builder.createMessage(patient, Type.ADMISSION, Format.PIPE);
+			String message = builder.createMessage(patient, Type.ADMISSION, Format.PIPE);
+			sender.sendMessage(message);
 		}
 		else {
 				throw new RuntimeException("No more free beds");
@@ -78,7 +80,8 @@ public class HospitalImpl implements Hospital {
 	@Override
 	public void transferPatient() {
 		Patient patient = repository.transferRandomPatient();
-		builder.createMessage(patient, Type.TRANSFER, Format.PIPE);
+		String message = builder.createMessage(patient, Type.TRANSFER, Format.PIPE);
+		sender.sendMessage(message);
 	}
 	
 	
@@ -90,7 +93,8 @@ public class HospitalImpl implements Hospital {
 		if(occupiedBedsCheck()) {
 			Patient patient = repository.dischargeRandomPatient();
 			removePatient();
-			builder.createMessage(patient, Type.DISCHARGE, Format.PIPE);
+			String message = builder.createMessage(patient, Type.DISCHARGE, Format.PIPE);
+			sender.sendMessage(message);
 		}
 		else {
 			throw new RuntimeException("No Patients in Hospital");

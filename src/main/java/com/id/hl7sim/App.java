@@ -1,11 +1,12 @@
 package com.id.hl7sim;
 
 import java.util.List;
-
 import javax.sql.DataSource;
 import javax.xml.bind.JAXB;
-
 import com.id.hl7sim.Hospital;
+import com.id.hl7sim.threads.AdmissionThread;
+import com.id.hl7sim.threads.DischargeThread;
+import com.id.hl7sim.threads.TransferThread;
 import com.id.hl7sim.xml.Departments;
 import com.id.hl7sim.xml.Firstnames;
 import com.id.hl7sim.xml.Lastnames;
@@ -51,20 +52,18 @@ public class App {
 		
 		HL7Sender myHL7Sender = new HL7SenderImpl(hl7endpoint);
 		
-		Hospital myHospital = new HospitalImpl(50, myHl7Builder, myPatientRepository);
+		Hospital myHospital = new HospitalImpl(50, myHl7Builder, myHL7Sender, myPatientRepository);
 		
-		myHospital.autoFillHospital();
+		AdmissionThread admissionThread = new AdmissionThread(myHospital);
+		DischargeThread dischargeThread = new DischargeThread(myHospital);
+		TransferThread transferThread = new TransferThread(myHospital);
 		
-		for(int i = 0; i < 20; i++) {
-			
-			myHospital.dischargePatient();
-			myHospital.admitPatient();
-			myHospital.transferPatient();
-		}
 		
-		List<String> allHL7s = myHl7Builder.getAllHL7s();
+		admissionThread.start();
+		dischargeThread.start();
+		transferThread.start();
 		
-		myHL7Sender.sendListOfMessages(allHL7s);
+		
 	}
 	
 	

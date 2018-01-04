@@ -32,25 +32,35 @@ public class HL7SenderImplTest {
 		testMessageOne = "HL7 rockz!";
 		testMessageTwo = "HL7 still rockz!";
 		testAllHL7s.add(testMessageOne);
-		testAllHL7s.add(testMessageTwo);
+		testAllHL7s.add(testMessageTwo); 
 	}
 
 	@Test(expected=IllegalArgumentException.class) 
 	public void testSendMessageNoValuesInArray() {
 		testAllHL7s = null;
-		testHL7Sender.writeLogFile(testAllHL7s);
+		testHL7Sender.writeLogFile(testAllHL7s); 
 	}
 	
 	@Test
 	public void testSendMessage() {
 		// Given
 		String message = "testAllHL7s";
-		
+		 
 		// When
 		testHL7Sender.sendMessage(message);
 		
 		// Then
         assertEquals(message,new String(baos.toByteArray(), StandardCharsets.UTF_8));
 	}
-
+	
+	@Test
+	public void testSendListOfMessages() {
+	
+		// When
+		testHL7Sender.sendListOfMessages(testAllHL7s);
+		
+		// Then
+        assertEquals(testAllHL7s.get(0) + testAllHL7s.get(1),new String(baos.toByteArray(), StandardCharsets.UTF_8));
+	} 
+	
 }
