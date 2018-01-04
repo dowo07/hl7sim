@@ -58,9 +58,8 @@ public class App {
 		DischargeThread dischargeThread = new DischargeThread(myHospital);
 		TransferThread transferThread = new TransferThread(myHospital);
 		
-		
-		admissionThread.start();
 		dischargeThread.start();
+		admissionThread.start();
 		transferThread.start();
 		
 		

@@ -32,7 +32,8 @@ public class HospitalImplTest {
 	DataSource testDataSource;
 	
 	HL7Sender testSender;
-
+	
+	HL7Endpoint testEndpoint;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -52,6 +53,10 @@ public class HospitalImplTest {
 		
 		testDataSource = testConnection.getDataSource();
 		
+		testEndpoint = new HL7SocketEndpoint("localhost", 6661);
+		
+		testSender = new HL7SenderImpl(testEndpoint);
+		
 		testPatientRepository = new PatientRepositoryMySqlImpl(testDataSource, testPatientGenerator);
 
 		testHospital = new HospitalImpl(10, testHl7builder, testSender, testPatientRepository);
@@ -60,7 +65,7 @@ public class HospitalImplTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testHospitalWithTooLessBeds() {
-		testHospital = new HospitalImpl(3, testHl7builder, testSender, testPatientRepository);
+		testHospital = new HospitalImpl(3, testHl7builder, testSender, testPatientRepository); 
 	}
 
 	@Test(expected = IllegalArgumentException.class)
