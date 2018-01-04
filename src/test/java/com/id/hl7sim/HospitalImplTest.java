@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -26,6 +28,8 @@ public class HospitalImplTest {
 	List<Patient> testBothPatients;
 
 	PatientGenerator testPatientGenerator;
+	
+	DataSource testDataSource;
 
 	
 	@Before
@@ -43,8 +47,10 @@ public class HospitalImplTest {
 
 		Mockito.when(testHl7builder.createMessage(Mockito.<Patient>any(), Mockito.<Type>any(), Mockito.<Format>any()))
 				.thenReturn("||||");
-
-		testPatientRepository = new PatientRepositoryMySqlImpl(testPatientGenerator);
+		
+		testDataSource = testConnection.getDataSource();
+		
+		testPatientRepository = new PatientRepositoryMySqlImpl(testDataSource, testPatientGenerator);
 
 		testHospital = new HospitalImpl(10, testHl7builder, testPatientRepository);
 

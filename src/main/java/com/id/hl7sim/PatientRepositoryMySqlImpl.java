@@ -8,7 +8,9 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+
+
 
 public class PatientRepositoryMySqlImpl implements PatientRepository {
 
@@ -16,21 +18,13 @@ public class PatientRepositoryMySqlImpl implements PatientRepository {
 	private static JdbcTemplate template;
 
 	private PatientGenerator patientGenerator;
- 
 	
-	public PatientRepositoryMySqlImpl(PatientGenerator patientGenerator) {
+	public DataSource dataSource;
+	
+	public PatientRepositoryMySqlImpl(DataSource dataSource, PatientGenerator patientGenerator) {
 		this.patientGenerator = patientGenerator;
-		DataSource source = getDataSource();
-		PatientRepositoryMySqlImpl.template = new JdbcTemplate(source);
-	}
-
-	public static DataSource getDataSource() {
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName(MySqlConnection.DB_DRIVER);
-		dataSource.setUrl(MySqlConnection.DB_CONNECTION); 
-		dataSource.setUsername(MySqlConnection.DB_USER);
-		dataSource.setPassword(MySqlConnection.DB_PASSWORD);
-		return dataSource;
+		this.dataSource = dataSource;
+		PatientRepositoryMySqlImpl.template = new JdbcTemplate(dataSource);
 	}
 
 	public void insertPatient(Patient patient) {

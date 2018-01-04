@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
 
 public class PatientRepositoryMSSqlImpl implements PatientRepository {
 
@@ -16,19 +16,13 @@ public class PatientRepositoryMSSqlImpl implements PatientRepository {
 	private static JdbcTemplate template;
 
 	private PatientGenerator patientGenerator;
- 
 	
-	public PatientRepositoryMSSqlImpl(PatientGenerator patientGenerator) {
+	public DataSource dataSource;
+	
+	public PatientRepositoryMSSqlImpl(DataSource dataSource, PatientGenerator patientGenerator) {
 		this.patientGenerator = patientGenerator;
-		DataSource source = getDataSource();
-		PatientRepositoryMSSqlImpl.template = new JdbcTemplate(source);
-	}
-
-	public static DataSource getDataSource() {
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName(MSSqlConnection.DB_DRIVER);
-		dataSource.setUrl(MSSqlConnection.DB_CONNECTION);
-		return dataSource;
+		this.dataSource = dataSource;
+		PatientRepositoryMSSqlImpl.template = new JdbcTemplate(dataSource);
 	}
 
 	public void insertPatient(Patient patient) {

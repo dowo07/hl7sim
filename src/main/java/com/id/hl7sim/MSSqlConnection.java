@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
 public class MSSqlConnection implements DatabaseConnection {
 
 	public static final String DB_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
@@ -21,6 +25,13 @@ public class MSSqlConnection implements DatabaseConnection {
 			System.out.println(e.getMessage());
 		}
 		return dbConnection;
+	}
+	
+	public DataSource getDataSource() {
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName(DB_DRIVER);
+		dataSource.setUrl(DB_CONNECTION); 
+		return dataSource;
 	}
 
 }

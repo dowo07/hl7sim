@@ -2,6 +2,7 @@ package com.id.hl7sim;
 
 import java.util.List;
 
+import javax.sql.DataSource;
 import javax.xml.bind.JAXB;
 
 import com.id.hl7sim.Hospital;
@@ -24,8 +25,24 @@ public class App {
 		
 		List<Patient> allPatients = myGenerator.createRandomPatients(100);
 		
-		PatientRepository myPatientRepository = new PatientRepositoryMSSqlImpl(myGenerator);    
-        
+		DatabaseConnection myConnection = new MSSqlConnection();
+		
+		DataSource myDataSource = myConnection.getDataSource(); 
+		
+		PatientRepository myPatientRepository = null;
+		
+		   switch (myConnection.getClass().toString()) {
+           case "class com.id.hl7sim.MSSqlConnection":  
+           	myPatientRepository = new PatientRepositoryMSSqlImpl(myDataSource, myGenerator);
+           	break;
+           case "class com.id.hl7sim.MySqlConnection":	
+           	myPatientRepository = new PatientRepositoryMySqlImpl(myDataSource, myGenerator);
+           	break;
+           default:
+           	throw new IllegalArgumentException("Database Type not possible");
+           	
+       }     
+               
 		myPatientRepository.insertListOfPatients(allPatients);
 		
 		HL7Builder myHl7Builder = new HL7BuilderImpl();
@@ -38,7 +55,7 @@ public class App {
 		
 		myHospital.autoFillHospital();
 		
-		for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < 20; i++) {
 			
 			myHospital.dischargePatient();
 			myHospital.admitPatient();

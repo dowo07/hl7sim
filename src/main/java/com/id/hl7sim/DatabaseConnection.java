@@ -2,8 +2,11 @@ package com.id.hl7sim;
 
 import java.sql.Connection;
 
+import javax.sql.DataSource;
+
 public interface DatabaseConnection {
 
-	Connection getDBConnection();
-
+	public Connection getDBConnection();
+	
+	public DataSource getDataSource();
 }

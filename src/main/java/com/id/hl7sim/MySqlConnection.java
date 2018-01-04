@@ -5,6 +5,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
 
 public class MySqlConnection implements DatabaseConnection {
 
@@ -14,11 +18,7 @@ public class MySqlConnection implements DatabaseConnection {
 	public static final String DB_USER = "root";
 	public static final String DB_PASSWORD = "root";
  
-	 
-	/* (non-Javadoc)
-	 * @see com.id.hl7sim.DatabaseConnection#getDBConnection()
-	 */
-	@Override
+	
 	public Connection getDBConnection() {
 		Connection dbConnection = null;
 		try {
@@ -32,5 +32,12 @@ public class MySqlConnection implements DatabaseConnection {
 		return dbConnection; 
 	}
 
-
+	public DataSource getDataSource() {
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName(MySqlConnection.DB_DRIVER);
+		dataSource.setUrl(MySqlConnection.DB_CONNECTION); 
+		dataSource.setUsername(MySqlConnection.DB_USER);
+		dataSource.setPassword(MySqlConnection.DB_PASSWORD);
+		return dataSource;
+	}
 }

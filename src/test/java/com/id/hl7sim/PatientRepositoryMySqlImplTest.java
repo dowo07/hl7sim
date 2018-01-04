@@ -11,6 +11,7 @@ import com.id.hl7sim.xml.Wards;
 
 import java.util.List;
 
+import javax.sql.DataSource;
 import javax.xml.bind.JAXB;
 
 import java.util.ArrayList;
@@ -37,7 +38,9 @@ public class PatientRepositoryMySqlImplTest {
 	Wards testWards;
 
 	PatientRepositoryMySqlImpl testPatientRepository;
-
+	
+	DataSource testDataSource;
+	
 	@Before
 	public void setUp() throws Exception {
 
@@ -56,7 +59,9 @@ public class PatientRepositoryMySqlImplTest {
 
 		testConnection = new MySqlConnection();
 		
-		testPatientRepository = new PatientRepositoryMySqlImpl(testPatientGenerator);
+		testDataSource = testConnection.getDataSource();
+		
+		testPatientRepository = new PatientRepositoryMySqlImpl(testDataSource, testPatientGenerator);
 		
 	}
 

@@ -19,6 +19,7 @@ import java.sql.SQLException;
 
 import java.util.ArrayList;
 
+import javax.sql.DataSource;
 import javax.xml.bind.JAXB;
 
 public class PatientRepositoryMSSqlImplTest {
@@ -46,6 +47,8 @@ public class PatientRepositoryMSSqlImplTest {
 	
 	PatientRepository myMock;
 
+	DataSource testDataSource;
+	
 	@Before
 	public void setUp() throws Exception {
 
@@ -64,7 +67,9 @@ public class PatientRepositoryMSSqlImplTest {
 		
 		testConnection = new MSSqlConnection();
 		
-		testPatientRepository = new PatientRepositoryMSSqlImpl(testPatientGenerator);
+		testDataSource = testConnection.getDataSource();
+		
+		testPatientRepository = new PatientRepositoryMSSqlImpl(testDataSource, testPatientGenerator);
 		
 		testPatientRepository.admitRandomPatient();
 		
