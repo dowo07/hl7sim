@@ -22,7 +22,7 @@ public class HospitalImpl implements Hospital {
 		this.sender = sender;
 		this.repository = patientRepository; 
 	}
-
+ 
 	 
 	public int getCapacity() {
 		return capacity;

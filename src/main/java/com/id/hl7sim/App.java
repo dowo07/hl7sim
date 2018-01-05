@@ -63,6 +63,7 @@ public class App {
 		hospitalStartThread.start();
 
 		admissionThread.start();
+		transferThread.start();
 		dischargeThread.start();
 		
 		

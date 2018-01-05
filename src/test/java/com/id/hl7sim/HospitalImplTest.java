@@ -123,25 +123,9 @@ public class HospitalImplTest {
 		assertFalse(testHospital.occupiedBedsCheck());
 	}
 
-	@Test(expected = RuntimeException.class)
-	public void testAdmitPatientWhenNoFreeBed() {
-
-		testHospital.setCapacity(0);
-
-		testHospital.admitPatient();
-	}
-
-	@Test(expected = RuntimeException.class)
-	public void testDischargePatientWhenNoPatientInHospital() {
-
-		testHospital.setOccupiedBeds(0);
-
-		testHospital.dischargePatient();
-	}
-
 	@Test
 	public void testAdmitRandomPatient() {
-
+ 
 		testHospital.admitPatient();
 	}
 

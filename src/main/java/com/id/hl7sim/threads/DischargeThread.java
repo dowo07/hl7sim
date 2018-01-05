@@ -1,12 +1,15 @@
 package com.id.hl7sim.threads;
 
 import com.id.hl7sim.Hospital;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DischargeThread implements Runnable {
 
 	public Thread myThread;
 	public Hospital hospital;
-
+	public Logger logger = LoggerFactory.getLogger(DischargeThread.class);
+	
 	public DischargeThread(Hospital hospital) {
 		this.hospital = hospital;
 	}
@@ -16,7 +19,7 @@ public class DischargeThread implements Runnable {
 			try {
 				if (hospital.occupiedBedsCheck()) {
 					hospital.dischargePatient();
-					System.out.println("Free Beds: " + hospital.getCapacity());
+					logger.info("Free Beds: " + hospital.getCapacity());
 					Thread.sleep(2000);
 				} else {
 					Thread.sleep(10000);

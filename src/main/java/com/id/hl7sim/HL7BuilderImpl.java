@@ -27,7 +27,7 @@ public class HL7BuilderImpl implements HL7Builder {
 	
 	private static AtomicInteger messageControlId; 
 	private List<String> allHL7s;
-
+ 
 	
 	public HL7BuilderImpl() {
 		HL7BuilderImpl.messageControlId = new AtomicInteger(0);
