@@ -6,21 +6,19 @@ import com.id.hl7sim.threads.DischargeThread;
 import com.id.hl7sim.threads.TransferThread;
 
 
+
 public class HospitalTimeSimulator {
 	
 	
 	public Hospital hospital;
 	public Runnable hospitalStartThread;
-	public AdmissionThread admissionThread;
-	public DischargeThread dischargeThread;
-	public TransferThread transferThread;
+	public Thread admissionThread;
+	public Thread dischargeThread;
+	public Thread transferThread;
 	
 	
-	public HospitalTimeSimulator(Hospital hospital, AdmissionThread admissionThread, DischargeThread dischargeThread, TransferThread transferThread) {
+	public HospitalTimeSimulator(Hospital hospital) {
 		this.hospital = hospital;
-		this.admissionThread = admissionThread;
-		this.dischargeThread = dischargeThread;
-		this.transferThread = transferThread;
 	}
 	
 	public Hospital getHospital() {
@@ -42,11 +40,22 @@ public class HospitalTimeSimulator {
 		}
 	}
 	
-	public void simulateDay() {
+	public void simulateDay(int accelerationFactor) {
 		this.initHospital();
-		this.admissionThread.start();
-		this.dischargeThread.start();
-		this.transferThread.start();
+		
+		AdmissionThread admissionObject = new AdmissionThread(hospital);
+		Thread admissionThread = new Thread(admissionObject);
+		
+		DischargeThread dischargeObject = new DischargeThread(hospital);
+		Thread dischargeThread = new Thread(dischargeObject);
+		
+		TransferThread transferObject = new TransferThread(hospital);
+		Thread transferThread = new Thread(transferObject);
+		
+		admissionThread.start();
+		dischargeThread.start();
+		transferThread.start();
+		
 	}
 
 	

@@ -22,7 +22,6 @@ public class HospitalImpl implements Hospital {
 		this.builder = builder;
 		this.sender = sender;
 		this.repository = patientRepository; 
-		
 	}
  
 	 

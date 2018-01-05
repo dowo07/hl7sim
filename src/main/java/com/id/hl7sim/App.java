@@ -54,15 +54,10 @@ public class App {
 		
 		Hospital myHospital = new HospitalImpl(20, myHl7Builder, myHL7Sender, myPatientRepository);
 		
-		AdmissionThread admissionThread = new AdmissionThread(myHospital);
-		DischargeThread dischargeThread = new DischargeThread(myHospital);
-		TransferThread transferThread = new TransferThread(myHospital);
+		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulator(myHospital);
 		
-		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulator(myHospital, admissionThread, dischargeThread, transferThread);
-		
-		myHospitalTimeSimulator.simulateDay();
-		
-	} 
+		myHospitalTimeSimulator.simulateDay(1);
+		} 
 	 
-	 
+	  
 }

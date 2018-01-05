@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 
 public class DischargeThread implements Runnable {
 
-	public Thread myThread;
 	public Hospital hospital;
 	public Logger logger = LoggerFactory.getLogger(DischargeThread.class);
 
@@ -16,20 +15,14 @@ public class DischargeThread implements Runnable {
 
 	public void run() {
 		do {
-			try {
-				this.hospital.dischargePatient();
-				logger.info("Free Beds: " + hospital.getCapacity());
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			this.hospital.dischargePatient();
+			logger.info("Free Beds: " + hospital.getCapacity());
+			synchronized (this) {
+				try {
+					wait(2000);
+				} catch (InterruptedException e) {}
 			}
 		} while (true);
 	}
 
-	public void start() {
-		if (myThread == null) {
-			myThread = new Thread(this);
-			myThread.start();
-		}
-	}
 }
