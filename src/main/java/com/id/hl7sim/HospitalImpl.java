@@ -7,8 +7,9 @@ public class HospitalImpl implements Hospital {
 	private static int capacity;
 	private static int occupiedBeds;
 	private HL7Builder builder;
-	private PatientRepository repository;
 	public HL7Sender sender;
+	private PatientRepository repository;
+
 	
 	public HospitalImpl(int capacity, HL7Builder builder, HL7Sender sender, PatientRepository patientRepository) {
 		if(capacity < 10 || capacity > 1000) {
@@ -21,43 +22,79 @@ public class HospitalImpl implements Hospital {
 		this.builder = builder;
 		this.sender = sender;
 		this.repository = patientRepository; 
+		
 	}
  
 	 
+	/* (non-Javadoc)
+	 * @see com.id.hl7sim.Hospital#getCapacity()
+	 */
+	@Override
 	public int getCapacity() {
 		return capacity;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.id.hl7sim.Hospital#setCapacity(int)
+	 */
+	@Override
 	public void setCapacity(int capacity) {
 		HospitalImpl.capacity = capacity;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.id.hl7sim.Hospital#getOccupiedBeds()
+	 */
+	@Override
 	public int getOccupiedBeds() {
 		return occupiedBeds;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.id.hl7sim.Hospital#setOccupiedBeds(int)
+	 */
+	@Override
 	public void setOccupiedBeds(int occupiedBeds) {
 		HospitalImpl.occupiedBeds = occupiedBeds;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.id.hl7sim.Hospital#addPatient()
+	 */
+	@Override
 	public void addPatient() {
 		setCapacity(capacity - 1);
 		setOccupiedBeds(occupiedBeds + 1);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.id.hl7sim.Hospital#removePatient()
+	 */
+	@Override
 	public void removePatient() {
 		setCapacity(capacity + 1);
 		setOccupiedBeds(occupiedBeds - 1);
 	}
  
+	/* (non-Javadoc)
+	 * @see com.id.hl7sim.Hospital#freeBedsCheck()
+	 */
+	@Override
 	public boolean freeBedsCheck() {
 		return HospitalImpl.capacity > 0 ? true : false;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.id.hl7sim.Hospital#occupiedBedsCheck()
+	 */
+	@Override
 	public boolean occupiedBedsCheck() {
 		return HospitalImpl.occupiedBeds < 1  ? false : true;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.id.hl7sim.Hospital#admitPatient()
+	 */
 	/* (non-Javadoc)
 	 * @see com.id.hl7sim.Hospital#admitPatient()
 	 */
@@ -73,6 +110,9 @@ public class HospitalImpl implements Hospital {
 	/* (non-Javadoc)
 	 * @see com.id.hl7sim.Hospital#transferPatient()
 	 */
+	/* (non-Javadoc)
+	 * @see com.id.hl7sim.Hospital#transferPatient()
+	 */
 	@Override
 	public void transferPatient() {
 		Patient patient = repository.transferRandomPatient();
@@ -81,6 +121,9 @@ public class HospitalImpl implements Hospital {
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see com.id.hl7sim.Hospital#dischargePatient()
+	 */
 	/* (non-Javadoc)
 	 * @see com.id.hl7sim.Hospital#dischargePatient()
 	 */
@@ -96,6 +139,9 @@ public class HospitalImpl implements Hospital {
 //	/* (non-Javadoc)
 //	 * @see com.id.hl7sim.Hospital#autoFillHospital()
 //	 */
+	/* (non-Javadoc)
+	 * @see com.id.hl7sim.Hospital#autoFillHospital()
+	 */
 	@Override
 	public void autoFillHospital() {
 		do {

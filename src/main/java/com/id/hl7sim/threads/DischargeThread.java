@@ -9,7 +9,7 @@ public class DischargeThread implements Runnable {
 	public Thread myThread;
 	public Hospital hospital;
 	public Logger logger = LoggerFactory.getLogger(DischargeThread.class);
-	
+
 	public DischargeThread(Hospital hospital) {
 		this.hospital = hospital;
 	}
@@ -17,13 +17,9 @@ public class DischargeThread implements Runnable {
 	public void run() {
 		do {
 			try {
-				if (hospital.occupiedBedsCheck()) {
-					hospital.dischargePatient();
-					logger.info("Free Beds: " + hospital.getCapacity());
-					Thread.sleep(2000);
-				} else {
-					Thread.sleep(10000);
-				}
+				this.hospital.dischargePatient();
+				logger.info("Free Beds: " + hospital.getCapacity());
+				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

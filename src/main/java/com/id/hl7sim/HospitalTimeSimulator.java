@@ -1,25 +1,27 @@
 package com.id.hl7sim;
 
 
+import com.id.hl7sim.threads.AdmissionThread;
+import com.id.hl7sim.threads.DischargeThread;
+import com.id.hl7sim.threads.TransferThread;
+
+
 public class HospitalTimeSimulator {
 	
 	
 	public Hospital hospital;
 	public Runnable hospitalStartThread;
-	public Runnable admissionThread;
-	public Runnable transferThread;
-	public Runnable dischargeThread;
+	public AdmissionThread admissionThread;
+	public DischargeThread dischargeThread;
+	public TransferThread transferThread;
 	
 	
-	public HospitalTimeSimulator(Hospital hospital, Runnable hospitalStartThread, Runnable admissionThread, Runnable dischargeThread, Runnable transferThread) {
+	public HospitalTimeSimulator(Hospital hospital, AdmissionThread admissionThread, DischargeThread dischargeThread, TransferThread transferThread) {
 		this.hospital = hospital;
-		this.hospitalStartThread = hospitalStartThread;
 		this.admissionThread = admissionThread;
-		this.transferThread = transferThread;
 		this.dischargeThread = dischargeThread;
+		this.transferThread = transferThread;
 	}
-	
-	
 	
 	public Hospital getHospital() {
 		return hospital;
@@ -29,48 +31,22 @@ public class HospitalTimeSimulator {
 		this.hospital = hospital;
 	}
 
-	public Runnable getHospitalStartThread() {
-		return hospitalStartThread;
-	}
-
-	public void setHospitalStartThread(Runnable hospitalStartThread) {
-		this.hospitalStartThread = hospitalStartThread;
-	}
-
-	public Runnable getAdmissionThread() {
-		return admissionThread;
-	}
-
-	public void setAdmissionThread(Runnable admissionThread) {
-		this.admissionThread = admissionThread;
-	}
-
-	public Runnable getTransferThread() {
-		return transferThread;
-	}
-
-	public void setTransferThread(Runnable transferThread) {
-		this.transferThread = transferThread;
-	}
-
-	public Runnable getDischargeThread() {
-		return dischargeThread;
-	}
-
-	public void setDischargeThread(Runnable dischargeThread) {
-		this.dischargeThread = dischargeThread;
-	}
-
 	public int getNumberOfpatientsForInitializing() {
 		return (int) (this.hospital.getCapacity() * 0.75);
 	}
 	
 	public void initHospital() {
-		
+		int patientsToAdmit = this.getNumberOfpatientsForInitializing();
+		for(int i = 0; i< patientsToAdmit; i++) {
+			this.hospital.admitPatient();
+		}
 	}
 	
-	public static void simulateDay() {
-		
+	public void simulateDay() {
+		this.initHospital();
+		this.admissionThread.start();
+		this.dischargeThread.start();
+		this.transferThread.start();
 	}
 
 	

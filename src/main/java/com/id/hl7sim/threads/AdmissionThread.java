@@ -7,10 +7,9 @@ import org.slf4j.LoggerFactory;
 public class AdmissionThread implements Runnable {
 
 	public Thread myThread;
-	public Hospital hospital;
 	public Logger logger = LoggerFactory.getLogger(AdmissionThread.class);
-	
-	
+	public Hospital hospital;
+
 	public AdmissionThread(Hospital hospital) {
 		this.hospital = hospital;
 	}
@@ -18,14 +17,9 @@ public class AdmissionThread implements Runnable {
 	public void run() {
 		do {
 			try {
-				if (hospital.freeBedsCheck()) {
-					hospital.admitPatient();
-					logger.info("Free Beds: " + hospital.getCapacity());
-					Thread.sleep(2000);
-				}
-				else {
-					Thread.sleep(10000);
-				}
+				this.hospital.admitPatient();
+				logger.info("Free Beds: " + hospital.getCapacity());
+				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

@@ -6,7 +6,6 @@ import javax.xml.bind.JAXB;
 import com.id.hl7sim.Hospital;
 import com.id.hl7sim.threads.AdmissionThread;
 import com.id.hl7sim.threads.DischargeThread;
-import com.id.hl7sim.threads.HospitalStartThread;
 import com.id.hl7sim.threads.TransferThread;
 import com.id.hl7sim.xml.Departments;
 import com.id.hl7sim.xml.Firstnames;
@@ -58,16 +57,12 @@ public class App {
 		AdmissionThread admissionThread = new AdmissionThread(myHospital);
 		DischargeThread dischargeThread = new DischargeThread(myHospital);
 		TransferThread transferThread = new TransferThread(myHospital);
-		HospitalStartThread hospitalStartThread = new HospitalStartThread(myHospital);
 		
-		hospitalStartThread.start();
-
-		admissionThread.start();
-		transferThread.start();
-		dischargeThread.start();
+		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulator(myHospital, admissionThread, dischargeThread, transferThread);
 		
+		myHospitalTimeSimulator.simulateDay();
 		
-	}
-	
-	
+	} 
+	 
+	 
 }
