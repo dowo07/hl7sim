@@ -6,13 +6,14 @@ import javax.xml.bind.JAXB;
 import com.id.hl7sim.Hospital;
 import com.id.hl7sim.threads.AdmissionThread;
 import com.id.hl7sim.threads.DischargeThread;
+import com.id.hl7sim.threads.HospitalStartThread;
 import com.id.hl7sim.threads.TransferThread;
 import com.id.hl7sim.xml.Departments;
 import com.id.hl7sim.xml.Firstnames;
 import com.id.hl7sim.xml.Lastnames;
 import com.id.hl7sim.xml.Wards;
 
-public class App { 
+public class App {   
 	 
 	
 	public static void main(String[] args) { 
@@ -52,15 +53,17 @@ public class App {
 		
 		HL7Sender myHL7Sender = new HL7SenderImpl(hl7endpoint);
 		
-		Hospital myHospital = new HospitalImpl(50, myHl7Builder, myHL7Sender, myPatientRepository);
+		Hospital myHospital = new HospitalImpl(20, myHl7Builder, myHL7Sender, myPatientRepository);
 		
 		AdmissionThread admissionThread = new AdmissionThread(myHospital);
 		DischargeThread dischargeThread = new DischargeThread(myHospital);
 		TransferThread transferThread = new TransferThread(myHospital);
+		HospitalStartThread hospitalStartThread = new HospitalStartThread(myHospital);
 		
-		dischargeThread.start();
+		hospitalStartThread.start();
+
 		admissionThread.start();
-		transferThread.start();
+		dischargeThread.start();
 		
 		
 	}

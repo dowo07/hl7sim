@@ -14,8 +14,13 @@ public class TransferThread implements Runnable {
 	public void run() {
 		do {
 			try {
-				this.hospital.transferPatient();
-				Thread.sleep(2000);
+				if (hospital.occupiedBedsCheck()) {
+					this.hospital.transferPatient();
+					System.out.println("Free Beds: " + hospital.getCapacity());
+					Thread.sleep(2000);
+				} else {
+					Thread.sleep(10000);
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

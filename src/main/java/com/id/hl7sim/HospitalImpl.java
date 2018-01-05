@@ -20,7 +20,7 @@ public class HospitalImpl implements Hospital {
 		HospitalImpl.occupiedBeds = 0;
 		this.builder = builder;
 		this.sender = sender;
-		this.repository = patientRepository;
+		this.repository = patientRepository; 
 	}
 
 	 
@@ -49,7 +49,7 @@ public class HospitalImpl implements Hospital {
 		setCapacity(capacity + 1);
 		setOccupiedBeds(occupiedBeds - 1);
 	}
-
+ 
 	public boolean freeBedsCheck() {
 		return HospitalImpl.capacity > 0 ? true : false;
 	}
@@ -63,15 +63,11 @@ public class HospitalImpl implements Hospital {
 	 */
 	@Override
 	public void admitPatient() {
-		if (freeBedsCheck()) {
+		
 			Patient patient = repository.admitRandomPatient();
 			addPatient();
 			String message = builder.createMessage(patient, Type.ADMISSION, Format.PIPE);
 			sender.sendMessage(message);
-		}
-		else {
-				throw new RuntimeException("No more free beds");
-		}
 	}	
 	
 	/* (non-Javadoc)
@@ -90,20 +86,16 @@ public class HospitalImpl implements Hospital {
 	 */
 	@Override
 	public void dischargePatient() {
-		if(occupiedBedsCheck()) {
+
 			Patient patient = repository.dischargeRandomPatient();
 			removePatient();
 			String message = builder.createMessage(patient, Type.DISCHARGE, Format.PIPE);
 			sender.sendMessage(message);
-		}
-		else {
-			throw new RuntimeException("No Patients in Hospital");
-		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.id.hl7sim.Hospital#autoFillHospital()
-	 */
+//	/* (non-Javadoc)
+//	 * @see com.id.hl7sim.Hospital#autoFillHospital()
+//	 */
 	@Override
 	public void autoFillHospital() {
 		do {

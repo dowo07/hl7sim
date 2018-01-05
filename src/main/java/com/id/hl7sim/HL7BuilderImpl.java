@@ -253,7 +253,7 @@ public class HL7BuilderImpl implements HL7Builder {
 		} catch (IOException e) {
 			throw new HL7BuilderException("Error on parsing message.", e);
 		}
-	}
+	} 
 
 	
 }
