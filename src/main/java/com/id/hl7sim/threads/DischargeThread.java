@@ -5,9 +5,9 @@ import com.id.hl7sim.Hospital;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+ 
 
-
-public class DischargeThread implements Runnable {
+public class DischargeThread implements Runnable, processThread {
 
 	
 	public Hospital hospital;
@@ -34,13 +34,67 @@ public class DischargeThread implements Runnable {
 		do {
 			synchronized (this) {
 				try {
-					TimeUnit.SECONDS.sleep(10800 / accelerationFactor);
-					this.hospital.dischargePatient();
-					TimeUnit.SECONDS.sleep(3600 / accelerationFactor);
-					this.hospital.dischargePatient();
+					simulateWholeDay();
 				} catch (InterruptedException e) {}
 			}
 		} while (true);
+	}
+	
+	public void simulateWholeDay() throws InterruptedException {
+		simulateNight();
+		simulateMorning();
+		simulateAfternoon();
+		simulateEvening();
+	}
+
+
+	public void simulateNight() throws InterruptedException {
+		TimeUnit.SECONDS.sleep(9000 / accelerationFactor);
+		this.hospital.dischargePatient();
+		TimeUnit.SECONDS.sleep(11400 / accelerationFactor);
+		this.hospital.dischargePatient();
+	}
+	
+	
+	public void simulateMorning() throws InterruptedException {
+		this.hospital.dischargePatient();
+		TimeUnit.SECONDS.sleep(60 / accelerationFactor);
+		this.hospital.dischargePatient();
+		TimeUnit.SECONDS.sleep(1740 / accelerationFactor);
+		this.hospital.dischargePatient();
+		this.hospital.dischargePatient();
+		TimeUnit.SECONDS.sleep(1200 / accelerationFactor);
+		this.hospital.dischargePatient();
+		TimeUnit.SECONDS.sleep(4200 / accelerationFactor);
+		this.hospital.dischargePatient();
+		TimeUnit.SECONDS.sleep(3600 / accelerationFactor);
+		this.hospital.dischargePatient();
+		TimeUnit.SECONDS.sleep(7200 / accelerationFactor);
+		this.hospital.dischargePatient();
+	}
+	
+	public void simulateAfternoon() throws InterruptedException {
+		this.hospital.dischargePatient();
+		TimeUnit.SECONDS.sleep(60 / accelerationFactor);
+		this.hospital.dischargePatient();
+		TimeUnit.SECONDS.sleep(1740 / accelerationFactor);
+		this.hospital.dischargePatient();
+		this.hospital.dischargePatient();
+		TimeUnit.SECONDS.sleep(1200 / accelerationFactor);
+		this.hospital.dischargePatient();
+		TimeUnit.SECONDS.sleep(4200 / accelerationFactor);
+		this.hospital.dischargePatient();
+		TimeUnit.SECONDS.sleep(3600 / accelerationFactor);
+		this.hospital.dischargePatient();
+		TimeUnit.SECONDS.sleep(7200 / accelerationFactor);
+		this.hospital.dischargePatient();
+	}
+	
+	public void simulateEvening() throws InterruptedException {
+		this.hospital.dischargePatient();
+		TimeUnit.SECONDS.sleep(11400 / accelerationFactor);
+		this.hospital.dischargePatient();
+		TimeUnit.SECONDS.sleep(9000 / accelerationFactor);
 	}
 
 	
