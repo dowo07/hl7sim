@@ -10,7 +10,7 @@ public class HL7SocketEndpoint implements HL7Endpoint {
 
 	private int port;
 
-	public HL7SocketEndpoint(String host, int port) {
+	public HL7SocketEndpoint(String host, int port) { 
 		this.host = host;
 		this.port = port;
 	}

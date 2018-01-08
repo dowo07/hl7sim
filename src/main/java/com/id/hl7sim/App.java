@@ -53,7 +53,7 @@ public class App {
 		
 		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulator(myHospital);
 		
-		myHospitalTimeSimulator.simulateDay(900);
+		myHospitalTimeSimulator.simulateDay(1500);
 		} 
 	 
 	  
