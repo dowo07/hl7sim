@@ -40,21 +40,17 @@ public class HospitalTimeSimulator {
 	}
 	
 	public void simulateDay(int accelerationFactor) {
-		this.initHospital();
+		if(this.getHospital().getOccupiedBeds() == 0) {
+			this.initHospital();
+		}
 		
-		AdmissionThread admissionObject = new AdmissionThread(hospital);
-		Thread admissionThread = new Thread(admissionObject);
-		
-		DischargeThread dischargeObject = new DischargeThread(hospital);
-		Thread dischargeThread = new Thread(dischargeObject);
-		
-		TransferThread transferObject = new TransferThread(hospital);
-		Thread transferThread = new Thread(transferObject);
+		Thread admissionThread = new Thread(new AdmissionThread(hospital, accelerationFactor));
+		Thread dischargeThread = new Thread(new DischargeThread(hospital, accelerationFactor));
+		Thread transferThread = new Thread(new TransferThread(hospital, accelerationFactor));
 		
 		admissionThread.start();
 		dischargeThread.start();
 		transferThread.start();
-		
 	}
 
 	

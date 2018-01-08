@@ -29,7 +29,7 @@ public class App {
 		
 		PatientRepository myPatientRepository = null;
 		
-		   switch (myConnection.getClass().toString()) {
+		   switch (myConnection.getClass().toString()) { 
            case "class com.id.hl7sim.MSSqlConnection":  
            	myPatientRepository = new PatientRepositoryMSSqlImpl(myDataSource, myGenerator);
            	break;
@@ -49,11 +49,11 @@ public class App {
 		
 		HL7Sender myHL7Sender = new HL7SenderImpl(hl7endpoint);
 		
-		Hospital myHospital = new HospitalImpl(20, myHl7Builder, myHL7Sender, myPatientRepository);
+		Hospital myHospital = new HospitalImpl(200, myHl7Builder, myHL7Sender, myPatientRepository);
 		
 		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulator(myHospital);
 		
-		myHospitalTimeSimulator.simulateDay(1);
+		myHospitalTimeSimulator.simulateDay(900);
 		} 
 	 
 	  
