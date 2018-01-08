@@ -1,6 +1,9 @@
 package com.id.hl7sim.threads;
 
 import com.id.hl7sim.Hospital;
+
+import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,11 +18,10 @@ public class DischargeThread implements Runnable {
 
 	public void run() {
 		do {
-			this.hospital.dischargePatient();
-			logger.info("Free Beds: " + hospital.getCapacity());
 			synchronized (this) {
 				try {
-					wait(2000);
+					TimeUnit.SECONDS.sleep(5);
+					this.hospital.dischargePatient();logger.info("Free Beds: " + hospital.getCapacity());
 				} catch (InterruptedException e) {}
 			}
 		} while (true);

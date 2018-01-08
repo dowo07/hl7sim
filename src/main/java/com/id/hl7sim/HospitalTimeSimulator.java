@@ -11,8 +11,7 @@ public class HospitalTimeSimulator {
 	
 	
 	public Hospital hospital;
-	public Runnable hospitalStartThread;
-	public Thread admissionThread;
+	public Thread admissionThread; 
 	public Thread dischargeThread;
 	public Thread transferThread;
 	
