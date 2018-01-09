@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+ 
 public class AdmissionThread implements Runnable, processThread {
 
 	
@@ -16,30 +16,19 @@ public class AdmissionThread implements Runnable, processThread {
 	public Hospital hospital;
 	public int accelerationFactor;
 	
-	
 	public AdmissionThread(Hospital hospital, int accelerationFactor) { 
 		this.hospital = hospital;
 		this.accelerationFactor = accelerationFactor;
 	}
-	
-	
-	/* (non-Javadoc)
-	 * @see com.id.hl7sim.threads.processThread#getAccelerationFactor()
-	 */
-	@Override
+		
 	public int getAccelerationFactor() {
 		return accelerationFactor;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.id.hl7sim.threads.processThread#setAccelerationFactor(int)
-	 */
-	@Override
 	public void setAccelerationFactor(int accelerationFactor) {
 		this.accelerationFactor = accelerationFactor;
 	}
 
-	
 	/* (non-Javadoc)
 	 * @see com.id.hl7sim.threads.processThread#run()
 	 */
@@ -49,7 +38,9 @@ public class AdmissionThread implements Runnable, processThread {
 			synchronized (this) {
 				try {
 					simulateWholeDay();
-				} catch (InterruptedException e) {}
+				} catch (InterruptedException e) {
+					throw new RuntimeException("Error while simulating day");
+				}
 			}
 		} while (true);
 	}

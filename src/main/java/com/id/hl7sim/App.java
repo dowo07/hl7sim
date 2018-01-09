@@ -23,7 +23,7 @@ public class App {
 		
 		List<Patient> allPatients = myGenerator.createRandomPatients(100);
 		
-		DatabaseConnection myConnection = new MSSqlConnection();
+		DatabaseConnection myConnection = new MySqlConnection();
 		
 		DataSource myDataSource = myConnection.getDataSource(); 
 		
@@ -39,7 +39,7 @@ public class App {
            default:
            	throw new IllegalArgumentException("Database Type not possible");
            	
-       }     
+       }      
                
 		myPatientRepository.insertListOfPatients(allPatients);
 		
@@ -51,9 +51,12 @@ public class App {
 		
 		Hospital myHospital = new HospitalImpl(200, myHl7Builder, myHL7Sender, myPatientRepository);
 		
-		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulator(myHospital);
+		int accelerationFactor = 4000;		// 1 = Realtime, 2 = double speed, ...
 		
-		myHospitalTimeSimulator.simulateDay(1500);
+		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulator(myHospital, accelerationFactor);
+	
+		myHospitalTimeSimulator.simulateDay();
+		
 		} 
 	 
 	  

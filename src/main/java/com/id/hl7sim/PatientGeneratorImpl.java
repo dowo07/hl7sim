@@ -35,7 +35,7 @@ public class PatientGeneratorImpl implements PatientGenerator {
 		PatientGeneratorImpl.firstnames = firstnames;
 	}
 
-	public Lastnames getLastnames() {
+	public Lastnames getLastnames() { 
 		return lastnames;
 	}
 

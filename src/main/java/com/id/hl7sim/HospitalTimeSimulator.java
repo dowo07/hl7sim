@@ -11,13 +11,23 @@ public class HospitalTimeSimulator {
 	
 	
 	public Hospital hospital;
-	public Thread admissionThread; 
-	public Thread dischargeThread;
-	public Thread transferThread;
+	public Runnable admissionThread; 
+	public Runnable dischargeThread;
+	public Runnable transferThread;
+	public static int accelerationFactor;
 	
 	
-	public HospitalTimeSimulator(Hospital hospital) {
+	public static int getAccelerationFactor() {
+		return accelerationFactor;
+	}
+
+	public static void setAccelerationFactor(int accelerationFactor) {
+		HospitalTimeSimulator.accelerationFactor = accelerationFactor;
+	}
+
+	public HospitalTimeSimulator(Hospital hospital, int accelerationFactor) {
 		this.hospital = hospital;
+		HospitalTimeSimulator.accelerationFactor = accelerationFactor;
 	}
 	
 	public Hospital getHospital() {
@@ -26,7 +36,7 @@ public class HospitalTimeSimulator {
 
 	public void setHospital(Hospital hospital) {
 		this.hospital = hospital;
-	}
+	} 
 
 	public int getNumberOfpatientsForInitializing() {
 		return (int) (this.hospital.getCapacity() * 0.75);
@@ -39,14 +49,14 @@ public class HospitalTimeSimulator {
 		}
 	}
 	
-	public void simulateDay(int accelerationFactor) {
+	public void simulateDay() {
 		if(this.getHospital().getOccupiedBeds() == 0) {
 			this.initHospital();
 		}
 		
-		Thread admissionThread = new Thread(new AdmissionThread(hospital, accelerationFactor));
-		Thread dischargeThread = new Thread(new DischargeThread(hospital, accelerationFactor));
-		Thread transferThread = new Thread(new TransferThread(hospital, accelerationFactor));
+		Thread admissionThread = new Thread(new AdmissionThread(hospital, getAccelerationFactor()));
+		Thread dischargeThread = new Thread(new DischargeThread(hospital, getAccelerationFactor()));
+		Thread transferThread = new Thread(new TransferThread(hospital, getAccelerationFactor()));
 		
 		admissionThread.start();
 		dischargeThread.start();
