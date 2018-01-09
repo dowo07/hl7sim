@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
 
 public class HospitalImplTest {
 
@@ -18,8 +20,6 @@ public class HospitalImplTest {
 	HL7Builder testHl7builder;
 
 	PatientRepository testPatientRepository;
-
-	DatabaseConnection testConnection;
 
 	List<String> testAllHl7s;
  
@@ -35,6 +35,10 @@ public class HospitalImplTest {
 	
 	HL7Endpoint testEndpoint;
 	
+	
+	
+	ComboPooledDataSource cpds;
+	
 	@Before
 	public void setUp() throws Exception {
 
@@ -42,8 +46,8 @@ public class HospitalImplTest {
 
 		testBothPatients = new ArrayList<Patient>();
 		
-		testConnection = new MySqlConnection();
-
+		cpds = DatabaseManager.provideDataSource("MSSql");
+		
 		testHl7builder = Mockito.mock(HL7Builder.class);
 
 		testPatientGenerator = Mockito.mock(PatientGeneratorImpl.class);
@@ -51,13 +55,12 @@ public class HospitalImplTest {
 		Mockito.when(testHl7builder.createMessage(Mockito.<Patient>any(), Mockito.<Type>any(), Mockito.<Format>any()))
 				.thenReturn("||||");
 		
-		testDataSource = testConnection.getDataSource();
 		
 		testEndpoint = new HL7SocketEndpoint("localhost", 6661);
 		
 		testSender = new HL7SenderImpl(testEndpoint);
 		
-		testPatientRepository = new PatientRepositoryMySqlImpl(testDataSource, testPatientGenerator);
+		testPatientRepository = new PatientRepositoryMSSqlImpl(cpds, testPatientGenerator);
 
 		testHospital = new HospitalImpl(10, testHl7builder, testSender, testPatientRepository);
  

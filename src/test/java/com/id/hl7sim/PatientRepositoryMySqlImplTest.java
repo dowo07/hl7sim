@@ -3,19 +3,14 @@ package com.id.hl7sim;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-
 import com.id.hl7sim.xml.Departments;
 import com.id.hl7sim.xml.Firstnames;
 import com.id.hl7sim.xml.Lastnames;
 import com.id.hl7sim.xml.Wards;
-
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 import java.util.List;
-
-import javax.sql.DataSource;
 import javax.xml.bind.JAXB;
-
 import java.util.ArrayList;
-
 
 public class PatientRepositoryMySqlImplTest {
 
@@ -24,8 +19,6 @@ public class PatientRepositoryMySqlImplTest {
 	Patient testPatientTwo;
 
 	List<Patient> testBothPatients;
-
-	DatabaseConnection testConnection;
 
 	PatientGenerator testPatientGenerator;
 
@@ -39,7 +32,9 @@ public class PatientRepositoryMySqlImplTest {
 
 	PatientRepositoryMySqlImpl testPatientRepository;
 	
-	DataSource testDataSource;
+	ComboPooledDataSource cpds;
+	
+	DatabaseManager dbmgr;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -56,12 +51,20 @@ public class PatientRepositoryMySqlImplTest {
 		testPatientTwo = testPatientGenerator.randomizeNewPatient();
 
 		testBothPatients = new ArrayList<Patient>();
-
-		testConnection = new MySqlConnection();
 		
-		testDataSource = testConnection.getDataSource();
+		ComboPooledDataSource cpds = DatabaseManager.provideDataSource("MySql");
 		
-		testPatientRepository = new PatientRepositoryMySqlImpl(testDataSource, testPatientGenerator);
+		cpds = new ComboPooledDataSource();
+		cpds.setJdbcUrl("jdbc:mysql://localhost/new_schema");
+		cpds.setUser("root");
+		cpds.setPassword("root");
+		cpds.setInitialPoolSize(5);
+		cpds.setMinPoolSize(5);
+		cpds.setAcquireIncrement(5);
+		cpds.setMaxPoolSize(20);
+		cpds.setMaxStatements(100);
+		
+		testPatientRepository = new PatientRepositoryMySqlImpl(cpds, testPatientGenerator);
 		
 	}
 

@@ -3,19 +3,13 @@ package com.id.hl7sim;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List; 
-
 import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-
-
-
 
 public class PatientRepositoryMySqlImpl implements PatientRepository {
 
-	@Autowired
-	private static JdbcTemplate template;
+
+	private JdbcTemplate template;
 
 	private PatientGenerator patientGenerator;
 	
@@ -24,7 +18,7 @@ public class PatientRepositoryMySqlImpl implements PatientRepository {
 	public PatientRepositoryMySqlImpl(DataSource dataSource, PatientGenerator patientGenerator) {
 		this.patientGenerator = patientGenerator;
 		this.dataSource = dataSource;
-		PatientRepositoryMySqlImpl.template = new JdbcTemplate(dataSource);
+		this.template = new JdbcTemplate(dataSource);
 	}
 
 	public void insertPatient(Patient patient) {
@@ -65,7 +59,7 @@ public class PatientRepositoryMySqlImpl implements PatientRepository {
 		return patient;
 	}
 	
-	public static Patient setPatientBasicData(Patient patient) {
+	public Patient setPatientBasicData(Patient patient) {
 		String sql = "SELECT * FROM tbl_patient WHERE id = '" + patient.getId() + "'";
 		Patient patientNew = (Patient) template.queryForObject(sql, new Object[] {}, new PatientRowMapper());
 		patient.setLastname(patientNew.getLastname());

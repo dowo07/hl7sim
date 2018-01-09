@@ -12,7 +12,7 @@ import com.id.hl7sim.xml.Departments;
 import com.id.hl7sim.xml.Firstnames;
 import com.id.hl7sim.xml.Lastnames;
 import com.id.hl7sim.xml.Wards;
-
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import java.util.List;
 import java.sql.SQLException;
@@ -33,8 +33,6 @@ public class PatientRepositoryMSSqlImplTest {
 
 	List<Patient> testBothPatients;
  
-	DatabaseConnection testConnection;
- 
 	PatientGenerator testPatientGenerator;
 	
 	Firstnames testFirstnames;
@@ -48,6 +46,8 @@ public class PatientRepositoryMSSqlImplTest {
 	PatientRepository myMock;
 
 	DataSource testDataSource;
+	
+	ComboPooledDataSource cpds;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -65,11 +65,17 @@ public class PatientRepositoryMSSqlImplTest {
 		
 		testBothPatients = new ArrayList<Patient>();
 		
-		testConnection = new MSSqlConnection();
+		cpds = new ComboPooledDataSource();
+		cpds.setJdbcUrl("jdbc:sqlserver://localhost:1433;databaseName=HL7Sim");
+		cpds.setUser("scorer");
+		cpds.setPassword("scorer");
+		cpds.setInitialPoolSize(5);
+		cpds.setMinPoolSize(5);
+		cpds.setAcquireIncrement(5);
+		cpds.setMaxPoolSize(20);
+		cpds.setMaxStatements(100);
 		
-		testDataSource = testConnection.getDataSource();
-		
-		testPatientRepository = new PatientRepositoryMSSqlImpl(testDataSource, testPatientGenerator);
+		testPatientRepository = new PatientRepositoryMSSqlImpl(cpds, testPatientGenerator);
 		
 		testPatientRepository.admitRandomPatient();
 		
