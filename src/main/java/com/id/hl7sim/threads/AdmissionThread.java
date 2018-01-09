@@ -35,13 +35,13 @@ public class AdmissionThread implements Runnable, processThread {
 	@Override
 	public void run() {
 		do {
-			synchronized (this) {
+			
 				try {
 					simulateWholeDay();
 				} catch (InterruptedException e) {
 					throw new RuntimeException("Error while simulating day");
 				}
-			}
+			
 		} while (true);
 	}
 

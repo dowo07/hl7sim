@@ -20,6 +20,9 @@ public class HL7SocketEndpoint implements HL7Endpoint {
 		Socket socket;
 		try {
 			socket = new Socket(host, port);
+			socket.setTcpNoDelay(true);
+			socket.setSoLinger(true, 0);
+			socket.setReuseAddress(true);
 			final OutputStream output = socket.getOutputStream();
 			return new OutputStream() {
 
@@ -30,6 +33,8 @@ public class HL7SocketEndpoint implements HL7Endpoint {
 
 				@Override
 				public void close() throws IOException {
+					socket.shutdownInput();
+					socket.shutdownOutput();
 					socket.close();
 					super.close();
 				}
