@@ -39,7 +39,7 @@ public class App {
 
 		Hospital myHospital = new HospitalImpl(50, myHl7Builder, myHL7Sender, myPatientRepository);
 
-		int accelerationFactor = 10000; // 1 = Realtime, 2 = double speed, ...
+		int accelerationFactor = 8000; // 1 = Realtime, 2 = double speed, ...
 
 		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulator(myHospital, accelerationFactor);
 
