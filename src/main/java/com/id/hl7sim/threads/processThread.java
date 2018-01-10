@@ -1,6 +1,6 @@
 package com.id.hl7sim.threads;
 
-public interface processThread {
+public interface ProcessThread {
 	
 	int getAccelerationFactor();
 	

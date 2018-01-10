@@ -77,7 +77,7 @@ public class AdmissionThreadTest {
 		
 		verify(hospitalMock, times(4)).admitPatient();
 	}
-	
+	 
 	@Test
 	public void testGetterSetter() {
 		

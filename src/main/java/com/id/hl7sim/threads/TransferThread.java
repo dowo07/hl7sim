@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import com.id.hl7sim.Hospital;
 
 
-public class TransferThread implements Runnable, processThread {
+public class TransferThread implements Runnable, ProcessThread {
 
 	 
 	public Hospital hospital;

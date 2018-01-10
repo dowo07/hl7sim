@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
  
-public class AdmissionThread implements Runnable, processThread {
+public class AdmissionThread implements Runnable, ProcessThread {
 
 	
 	public Logger logger = LoggerFactory.getLogger(AdmissionThread.class);
@@ -28,7 +28,7 @@ public class AdmissionThread implements Runnable, processThread {
 	public void setAccelerationFactor(int accelerationFactor) {
 		this.accelerationFactor = accelerationFactor;
 	}
-
+ 
 	/* (non-Javadoc)
 	 * @see com.id.hl7sim.threads.processThread#run()
 	 */

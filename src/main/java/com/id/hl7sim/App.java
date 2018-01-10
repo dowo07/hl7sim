@@ -21,7 +21,7 @@ public class App {
 
 		PatientGenerator myGenerator = new PatientGeneratorImpl(firstnames, lastnames, departments, wards);
 
-		List<Patient> allPatients = myGenerator.createRandomPatients(100);
+		List<Patient> allPatients = myGenerator.createRandomPatients(100); 
 	
 		ComboPooledDataSource cpds = DatabaseManager.provideDataSource("MySql");
 
@@ -39,7 +39,7 @@ public class App {
 
 		int accelerationFactor = 8000; 
 
-		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulator(myHospital, accelerationFactor);
+		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulatorImpl(myHospital, accelerationFactor);
 
 		myHospitalTimeSimulator.simulateDay();
 

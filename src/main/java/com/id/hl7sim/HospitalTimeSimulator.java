@@ -1,67 +1,19 @@
 package com.id.hl7sim;
 
+public interface HospitalTimeSimulator {
 
-import com.id.hl7sim.threads.AdmissionThread;
-import com.id.hl7sim.threads.DischargeThread;
-import com.id.hl7sim.threads.TransferThread;
-
-
-
-public class HospitalTimeSimulator {
+	int getAccelerationFactor();
 	
+	void setAccelerationFactor(int accelerationFactor);
 	
-	public Hospital hospital;
-	public Runnable admissionThread; 
-	public Runnable dischargeThread;
-	public Runnable transferThread;
-	public static int accelerationFactor;
-	
-	
-	public static int getAccelerationFactor() {
-		return accelerationFactor;
-	}
+	Hospital getHospital();
 
-	public static void setAccelerationFactor(int accelerationFactor) {
-		HospitalTimeSimulator.accelerationFactor = accelerationFactor;
-	}
+	void setHospital(Hospital hospital);
 
-	public HospitalTimeSimulator(Hospital hospital, int accelerationFactor) {
-		this.hospital = hospital;
-		HospitalTimeSimulator.accelerationFactor = accelerationFactor;
-	}
-	
-	public Hospital getHospital() {
-		return hospital;
-	}
+	int getNumberOfpatientsForInitializing();
 
-	public void setHospital(Hospital hospital) {
-		this.hospital = hospital;
-	} 
+	void initHospital();
 
-	public int getNumberOfpatientsForInitializing() {
-		return (int) (this.hospital.getCapacity() * 0.75);
-	}
-	
-	public void initHospital() {
-		int patientsToAdmit = this.getNumberOfpatientsForInitializing();
-		for(int i = 0; i< patientsToAdmit; i++) {
-			this.hospital.admitPatient();
-		}
-	}
-	
-	public void simulateDay() {
-		if(this.getHospital().getOccupiedBeds() == 0) {
-			this.initHospital();
-		}
-		
-		Thread admissionThread = new Thread(new AdmissionThread(hospital, getAccelerationFactor()));
-		Thread dischargeThread = new Thread(new DischargeThread(hospital, getAccelerationFactor()));
-		Thread transferThread = new Thread(new TransferThread(hospital, getAccelerationFactor()));
-		
-		admissionThread.start();
-		dischargeThread.start();
-		transferThread.start();
-	}
+	void simulateDay();
 
-	
 }
