@@ -27,8 +27,6 @@ public class App {
 
 		PatientRepository myPatientRepository = new PatientRepositoryMySqlImpl(cpds, myGenerator);
 		
-		//alter both!!!
-		
 		myPatientRepository.insertListOfPatients(allPatients);
 
 		HL7Builder myHl7Builder = new HL7BuilderImpl();
@@ -39,7 +37,7 @@ public class App {
 
 		Hospital myHospital = new HospitalImpl(50, myHl7Builder, myHL7Sender, myPatientRepository);
 
-		int accelerationFactor = 8000; // 1 = Realtime, 2 = double speed, ...
+		int accelerationFactor = 8000; 
 
 		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulator(myHospital, accelerationFactor);
 

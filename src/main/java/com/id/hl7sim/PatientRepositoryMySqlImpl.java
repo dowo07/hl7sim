@@ -2,22 +2,18 @@ package com.id.hl7sim;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List; 
+import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class PatientRepositoryMySqlImpl implements PatientRepository {
 
-
 	private JdbcTemplate template;
 
 	private PatientGenerator patientGenerator;
-	
-	public DataSource dataSource;
-	
+
 	public PatientRepositoryMySqlImpl(DataSource dataSource, PatientGenerator patientGenerator) {
 		this.patientGenerator = patientGenerator;
-		this.dataSource = dataSource;
 		this.template = new JdbcTemplate(dataSource);
 	}
 
@@ -50,15 +46,14 @@ public class PatientRepositoryMySqlImpl implements PatientRepository {
 				patient.getStatus());
 		return patient;
 	}
-	
-	
+
 	public Patient getRandomInpatient() {
 		String sql = "SELECT * FROM tbl_inpatients ORDER BY RAND() LIMIT 1";
 		Patient patient = (Patient) template.queryForObject(sql, new Object[] {}, new InPatientRowMapper());
 		setPatientBasicData(patient);
 		return patient;
 	}
-	
+
 	public Patient setPatientBasicData(Patient patient) {
 		String sql = "SELECT * FROM tbl_patient WHERE id = '" + patient.getId() + "'";
 		Patient patientNew = (Patient) template.queryForObject(sql, new Object[] {}, new PatientRowMapper());
@@ -68,7 +63,7 @@ public class PatientRepositoryMySqlImpl implements PatientRepository {
 		patient.setBirthday(patientNew.getBirthday());
 		return patient;
 	}
-	
+
 	public Patient transferRandomPatient() {
 		Patient patient = getRandomInpatient();
 		patient.setPriorWard(patient.getWard());
@@ -109,7 +104,7 @@ public class PatientRepositoryMySqlImpl implements PatientRepository {
 	public LocalDate parseBirthday(String birthday) {
 		LocalDate localDate = LocalDate.parse(birthday);
 		return localDate;
-	
+
 	}
 
 }
