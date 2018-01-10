@@ -12,7 +12,7 @@ public class DischargeThread implements Runnable, processThread {
 	
 	public Hospital hospital;
 	public Logger logger = LoggerFactory.getLogger(DischargeThread.class);
-	public int accelerationFactor;
+	public int accelerationFactor; 
 
 	
 	public DischargeThread(Hospital hospital, int accelerationFactor) {

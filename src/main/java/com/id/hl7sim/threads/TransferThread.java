@@ -24,7 +24,7 @@ public class TransferThread implements Runnable, processThread {
 	public int getAccelerationFactor() {
 		return accelerationFactor;
 	}
-
+ 
 	public void setAccelerationFactor(int accelerationFactor) {
 		this.accelerationFactor = accelerationFactor;
 	}

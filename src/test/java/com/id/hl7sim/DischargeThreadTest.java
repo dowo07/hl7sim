@@ -6,21 +6,21 @@ import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import com.id.hl7sim.threads.AdmissionThread;
+import com.id.hl7sim.threads.DischargeThread;
 
 
-public class AdmissionThreadTest {
+public class DischargeThreadTest {
 	
 	
 	Hospital hospitalMock;
-	AdmissionThread testAdmissionThread;
+	DischargeThread testDischargeThread;
 	
 	
 	@Before
 	public void setUp() throws Exception {
 		
 		hospitalMock = Mockito.mock(HospitalImpl.class);
-		testAdmissionThread = new AdmissionThread(hospitalMock, 4000);
+		testDischargeThread = new DischargeThread(hospitalMock, 4000);
 		
 	}
 	
@@ -28,10 +28,10 @@ public class AdmissionThreadTest {
 	public void testSimulateWholeDay() { 
 		
 		try {
-			testAdmissionThread.simulateWholeDay();
+			testDischargeThread.simulateWholeDay();
 		} catch (InterruptedException e) {}
 		
-		verify(hospitalMock, atLeast(18)).admitPatient();
+		verify(hospitalMock, atLeast(18)).dischargePatient();
 	}
 	
 	@Test
@@ -39,12 +39,12 @@ public class AdmissionThreadTest {
 		
 		//when
 		try {
-			testAdmissionThread.simulateNight();
+			testDischargeThread.simulateNight();
 		} catch (InterruptedException e) {}
 		
 		//then
-		verify(hospitalMock, times(4)).admitPatient();
-		verify(hospitalMock, never()).dischargePatient();
+		verify(hospitalMock, times(2)).dischargePatient();
+		verify(hospitalMock, never()).admitPatient();
 		verify(hospitalMock, never()).transferPatient();
 	}
 	
@@ -52,30 +52,30 @@ public class AdmissionThreadTest {
 	public void testSimulateMorning() { 
 		
 		try {
-			testAdmissionThread.simulateMorning();
+			testDischargeThread.simulateMorning();
 		} catch (InterruptedException e) {}
 		
-		verify(hospitalMock, times(8)).admitPatient();
+		verify(hospitalMock, times(8)).dischargePatient();
 	}
 	
 	@Test
 	public void testSimulateAfternoon() {
 		
 		try {
-			testAdmissionThread.simulateAfternoon();
+			testDischargeThread.simulateAfternoon();
 		} catch (InterruptedException e) {}
 		
-		verify(hospitalMock, times(4)).admitPatient();
+		verify(hospitalMock, times(8)).dischargePatient();
 	}
 	
 	@Test
 	public void testSimulateEvening() {
 		
 		try {
-			testAdmissionThread.simulateEvening();
+			testDischargeThread.simulateEvening();
 		} catch (InterruptedException e) {}
 		
-		verify(hospitalMock, times(4)).admitPatient();
+		verify(hospitalMock, times(2)).dischargePatient();
 	}
 	
 	@Test
@@ -83,9 +83,9 @@ public class AdmissionThreadTest {
 		
 		int testAccelerationFactor = 42;
 		
-		testAdmissionThread.setAccelerationFactor(testAccelerationFactor);
+		testDischargeThread.setAccelerationFactor(testAccelerationFactor);
 		
-		int result = testAdmissionThread.getAccelerationFactor();
+		int result = testDischargeThread.getAccelerationFactor();
 		
 		assertTrue(result == testAccelerationFactor);
 	}

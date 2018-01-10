@@ -24,7 +24,7 @@ public class AdmissionThread implements Runnable, processThread {
 	public int getAccelerationFactor() {
 		return accelerationFactor;
 	}
-
+ 
 	public void setAccelerationFactor(int accelerationFactor) {
 		this.accelerationFactor = accelerationFactor;
 	}
@@ -35,7 +35,6 @@ public class AdmissionThread implements Runnable, processThread {
 	@Override
 	public void run() {
 		do {
-			
 				try {
 					simulateWholeDay();
 				} catch (InterruptedException e) {
