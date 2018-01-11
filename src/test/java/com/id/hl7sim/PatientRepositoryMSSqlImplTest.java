@@ -24,7 +24,7 @@ import javax.xml.bind.JAXB;
 
 public class PatientRepositoryMSSqlImplTest {
  
-	
+	 
 	PatientRepository testPatientRepository;
 
 	Patient testPatient;
@@ -137,7 +137,7 @@ public class PatientRepositoryMSSqlImplTest {
 		assertTrue(testPatientRepository.countInpatients() >= numberOfPatients);
 	}
 	
-	@Test
+	@Test 
 	public void testInsertListOfPatients() {
 		
 		testBothPatients.add(testPatient);

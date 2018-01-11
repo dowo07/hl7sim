@@ -22,9 +22,9 @@ public class App {
 
 		List<Patient> allPatients = myGenerator.createRandomPatients(100); 
 	
-		ComboPooledDataSource cpds = DatabaseManager.provideDataSource("MSSql");
+		ComboPooledDataSource cpds = DatabaseManager.provideDataSource("MySql"); 
 
-		PatientRepository myPatientRepository = new PatientRepositoryMSSqlImpl(cpds, myGenerator);
+		PatientRepository myPatientRepository = new PatientRepositoryMySqlImpl(cpds, myGenerator);
 		
 		myPatientRepository.insertListOfPatients(allPatients);
 
