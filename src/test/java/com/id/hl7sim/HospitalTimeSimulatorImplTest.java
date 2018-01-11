@@ -80,14 +80,9 @@ public class HospitalTimeSimulatorImplTest {
 	@Test
 	public void testSimulateDay() {
 		
-	
 		testHospitalTimeSimulator.simulateDay();
 		
 		verify(hospitalMock, times(1)).getOccupiedBeds();
-		
-		
-		
-		
 	}
 	
 	

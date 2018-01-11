@@ -15,7 +15,7 @@ public class PatientRepositoryMySqlImpl implements PatientRepository {
 	public PatientRepositoryMySqlImpl(DataSource dataSource, PatientGenerator patientGenerator) {
 		this.patientGenerator = patientGenerator;
 		this.template = new JdbcTemplate(dataSource);
-	}
+	} 
 
 	public void insertPatient(Patient patient) {
 		template.update("INSERT INTO tbl_patient(lastname, firstname, gender, birthday) VALUES(?,?,?,?)",

@@ -20,7 +20,7 @@ public class TransferThreadTest {
 	public void setUp() throws Exception {
 		
 		hospitalMock = Mockito.mock(HospitalImpl.class);
-		testTransferThread = new TransferThread(hospitalMock, 4000);
+		testTransferThread = new TransferThread(hospitalMock, 12000);
 		
 	}
 	
@@ -34,7 +34,7 @@ public class TransferThreadTest {
 		verify(hospitalMock, atLeast(17)).transferPatient();
 	}
 	
-	@Test
+	@Test 
 	public void testSimulateNight() {
 		
 		//when

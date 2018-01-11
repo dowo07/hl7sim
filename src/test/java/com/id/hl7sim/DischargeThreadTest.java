@@ -20,7 +20,7 @@ public class DischargeThreadTest {
 	public void setUp() throws Exception {
 		
 		hospitalMock = Mockito.mock(HospitalImpl.class);
-		testDischargeThread = new DischargeThread(hospitalMock, 4000);
+		testDischargeThread = new DischargeThread(hospitalMock, 12000);
 		
 	}
 	

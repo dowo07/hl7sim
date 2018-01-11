@@ -9,7 +9,6 @@ import com.id.hl7sim.xml.Lastnames;
 import com.id.hl7sim.xml.Wards;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-
 public class App {
 
 	public static void main(String[] args) {
@@ -23,9 +22,9 @@ public class App {
 
 		List<Patient> allPatients = myGenerator.createRandomPatients(100); 
 	
-		ComboPooledDataSource cpds = DatabaseManager.provideDataSource("MySql");
+		ComboPooledDataSource cpds = DatabaseManager.provideDataSource("MSSql");
 
-		PatientRepository myPatientRepository = new PatientRepositoryMySqlImpl(cpds, myGenerator);
+		PatientRepository myPatientRepository = new PatientRepositoryMSSqlImpl(cpds, myGenerator);
 		
 		myPatientRepository.insertListOfPatients(allPatients);
 

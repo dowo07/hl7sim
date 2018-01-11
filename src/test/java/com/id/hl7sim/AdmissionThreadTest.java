@@ -20,7 +20,7 @@ public class AdmissionThreadTest {
 	public void setUp() throws Exception {
 		
 		hospitalMock = Mockito.mock(HospitalImpl.class);
-		testAdmissionThread = new AdmissionThread(hospitalMock, 4000);
+		testAdmissionThread = new AdmissionThread(hospitalMock, 12000);
 		
 	}
 	
