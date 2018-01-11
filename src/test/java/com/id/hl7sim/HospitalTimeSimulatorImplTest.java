@@ -24,7 +24,7 @@ public class HospitalTimeSimulatorImplTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		
+		 
 		hospitalMock = Mockito.mock(HospitalImpl.class);
 		admissionThreadMock = Mockito.mock(AdmissionThread.class);
 		dischargeThreadMock = Mockito.mock(DischargeThread.class);
