@@ -1,8 +1,24 @@
-package com.id.hl7sim;
+package com.id.hl7sim.application;
 
 import java.util.List;
 import javax.xml.bind.JAXB;
-import com.id.hl7sim.Hospital;
+
+import com.id.hl7sim.database.DatabaseManager;
+import com.id.hl7sim.database.PatientRepository;
+import com.id.hl7sim.database.PatientRepositoryMySqlImpl;
+import com.id.hl7sim.hl7.HL7Builder;
+import com.id.hl7sim.hl7.HL7BuilderImpl;
+import com.id.hl7sim.hl7.HL7Endpoint;
+import com.id.hl7sim.hl7.HL7Sender;
+import com.id.hl7sim.hl7.HL7SenderImpl;
+import com.id.hl7sim.hl7.HL7SocketEndpoint;
+import com.id.hl7sim.hospital.Hospital;
+import com.id.hl7sim.hospital.HospitalImpl;
+import com.id.hl7sim.hospital.HospitalTimeSimulator;
+import com.id.hl7sim.hospital.HospitalTimeSimulatorImpl;
+import com.id.hl7sim.patient.Patient;
+import com.id.hl7sim.patient.PatientGenerator;
+import com.id.hl7sim.patient.PatientGeneratorImpl;
 import com.id.hl7sim.xml.Departments;
 import com.id.hl7sim.xml.Firstnames;
 import com.id.hl7sim.xml.Lastnames;

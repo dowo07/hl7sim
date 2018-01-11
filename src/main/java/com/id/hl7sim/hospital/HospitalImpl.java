@@ -1,6 +1,11 @@
-package com.id.hl7sim;
+package com.id.hl7sim.hospital;
 
-
+import com.id.hl7sim.database.PatientRepository;
+import com.id.hl7sim.hl7.Format;
+import com.id.hl7sim.hl7.HL7Builder;
+import com.id.hl7sim.hl7.HL7Sender;
+import com.id.hl7sim.hl7.Type;
+import com.id.hl7sim.patient.Patient;
 
 public class HospitalImpl implements Hospital {
 

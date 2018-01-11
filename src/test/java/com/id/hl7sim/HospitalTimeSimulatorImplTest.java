@@ -6,6 +6,10 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.*;
 
+import com.id.hl7sim.hospital.Hospital;
+import com.id.hl7sim.hospital.HospitalImpl;
+import com.id.hl7sim.hospital.HospitalTimeSimulator;
+import com.id.hl7sim.hospital.HospitalTimeSimulatorImpl;
 import com.id.hl7sim.threads.AdmissionThread;
 import com.id.hl7sim.threads.DischargeThread;
 import com.id.hl7sim.threads.ProcessThread;

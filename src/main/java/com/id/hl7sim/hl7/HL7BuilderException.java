@@ -1,4 +1,4 @@
-package com.id.hl7sim;
+package com.id.hl7sim.hl7;
 
 @SuppressWarnings("serial")
 public class HL7BuilderException extends RuntimeException {

@@ -11,6 +11,21 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import com.id.hl7sim.database.DatabaseManager;
+import com.id.hl7sim.database.PatientRepository;
+import com.id.hl7sim.database.PatientRepositoryMSSqlImpl;
+import com.id.hl7sim.hl7.Format;
+import com.id.hl7sim.hl7.HL7Builder;
+import com.id.hl7sim.hl7.HL7Endpoint;
+import com.id.hl7sim.hl7.HL7Sender;
+import com.id.hl7sim.hl7.HL7SenderImpl;
+import com.id.hl7sim.hl7.HL7SocketEndpoint;
+import com.id.hl7sim.hl7.Type;
+import com.id.hl7sim.hospital.Hospital;
+import com.id.hl7sim.hospital.HospitalImpl;
+import com.id.hl7sim.patient.Patient;
+import com.id.hl7sim.patient.PatientGenerator;
+import com.id.hl7sim.patient.PatientGeneratorImpl;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 

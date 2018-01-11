@@ -1,12 +1,12 @@
 package com.id.hl7sim.threads;
 
 
-import com.id.hl7sim.Hospital;
-
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.id.hl7sim.hospital.Hospital;
 
  
 public class AdmissionThread implements Runnable, ProcessThread {

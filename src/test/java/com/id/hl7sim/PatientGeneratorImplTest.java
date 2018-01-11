@@ -12,6 +12,9 @@ import java.time.LocalDate;
 
 import javax.xml.bind.JAXB;
 
+import com.id.hl7sim.patient.Patient;
+import com.id.hl7sim.patient.PatientGenerator;
+import com.id.hl7sim.patient.PatientGeneratorImpl;
 import com.id.hl7sim.xml.Departments;
 import com.id.hl7sim.xml.Firstnames;
 import com.id.hl7sim.xml.Lastnames;

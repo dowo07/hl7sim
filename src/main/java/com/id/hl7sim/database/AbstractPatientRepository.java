@@ -1,4 +1,4 @@
-package com.id.hl7sim;
+package com.id.hl7sim.database;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -7,6 +7,10 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import com.id.hl7sim.patient.Patient;
+import com.id.hl7sim.patient.PatientGenerator;
+import com.id.hl7sim.patient.PatientRowMapper;
 
 
 public abstract class AbstractPatientRepository implements PatientRepository {

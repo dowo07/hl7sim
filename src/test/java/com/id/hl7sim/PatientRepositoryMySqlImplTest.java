@@ -3,6 +3,12 @@ package com.id.hl7sim;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.id.hl7sim.database.DatabaseManager;
+import com.id.hl7sim.database.PatientRepositoryMySqlImpl;
+import com.id.hl7sim.patient.Patient;
+import com.id.hl7sim.patient.PatientGenerator;
+import com.id.hl7sim.patient.PatientGeneratorImpl;
 import com.id.hl7sim.xml.Departments;
 import com.id.hl7sim.xml.Firstnames;
 import com.id.hl7sim.xml.Lastnames;

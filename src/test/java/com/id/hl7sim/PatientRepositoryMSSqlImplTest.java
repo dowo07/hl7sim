@@ -8,6 +8,11 @@ import org.mockito.Mockito;
 
 import static org.mockito.Mockito.*;
 
+import com.id.hl7sim.database.PatientRepository;
+import com.id.hl7sim.database.PatientRepositoryMSSqlImpl;
+import com.id.hl7sim.patient.Patient;
+import com.id.hl7sim.patient.PatientGenerator;
+import com.id.hl7sim.patient.PatientGeneratorImpl;
 import com.id.hl7sim.xml.Departments;
 import com.id.hl7sim.xml.Firstnames;
 import com.id.hl7sim.xml.Lastnames;

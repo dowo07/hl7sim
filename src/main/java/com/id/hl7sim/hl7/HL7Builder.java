@@ -1,6 +1,8 @@
-package com.id.hl7sim;
+package com.id.hl7sim.hl7;
 
 import java.util.List;
+
+import com.id.hl7sim.patient.Patient;
 
 public interface HL7Builder {
 

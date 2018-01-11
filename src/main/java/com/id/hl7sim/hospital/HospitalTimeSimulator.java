@@ -1,4 +1,4 @@
-package com.id.hl7sim;
+package com.id.hl7sim.hospital;
 
 public interface HospitalTimeSimulator {
 

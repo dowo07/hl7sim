@@ -1,4 +1,4 @@
-package com.id.hl7sim;
+package com.id.hl7sim.hospital;
 
 
 import com.id.hl7sim.threads.AdmissionThread;

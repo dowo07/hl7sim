@@ -11,6 +11,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import com.id.hl7sim.hl7.HL7Endpoint;
+import com.id.hl7sim.hl7.HL7Sender;
+import com.id.hl7sim.hl7.HL7SenderImpl;
+
 public class HL7SenderImplTest {
 	
 	HL7Sender testHL7Sender;

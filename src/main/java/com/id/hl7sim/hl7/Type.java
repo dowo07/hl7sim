@@ -1,4 +1,4 @@
-package com.id.hl7sim;
+package com.id.hl7sim.hl7;
 
 public enum Type {
 	ADMISSION,

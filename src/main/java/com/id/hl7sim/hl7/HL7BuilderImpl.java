@@ -1,4 +1,4 @@
-package com.id.hl7sim;
+package com.id.hl7sim.hl7;
 
 
 import java.io.IOException;
@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import com.id.hl7sim.patient.Patient;
 
 import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;

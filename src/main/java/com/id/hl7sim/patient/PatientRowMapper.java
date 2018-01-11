@@ -1,4 +1,4 @@
-package com.id.hl7sim;
+package com.id.hl7sim.patient;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

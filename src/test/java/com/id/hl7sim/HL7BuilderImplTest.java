@@ -11,6 +11,12 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.id.hl7sim.hl7.Format;
+import com.id.hl7sim.hl7.HL7Builder;
+import com.id.hl7sim.hl7.HL7BuilderImpl;
+import com.id.hl7sim.hl7.Type;
+import com.id.hl7sim.patient.Patient;
+
 
 public class HL7BuilderImplTest {
 	

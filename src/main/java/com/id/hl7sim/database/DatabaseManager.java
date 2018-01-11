@@ -1,4 +1,4 @@
-package com.id.hl7sim;
+package com.id.hl7sim.database;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
