@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -51,7 +52,7 @@ public class HL7BuilderImplTest {
 		int result = HL7BuilderImpl.getMessageControlId();
 		
 		assertTrue(result == 0);
-	}
+	} 
 	
 	@Test
 	public void testAllHl7sAtBegin() {
@@ -154,5 +155,14 @@ public class HL7BuilderImplTest {
 		assertTrue(result.contains("|ADT^A03^ADT_A03"));
 	}
 	
+	@Test(expected = IllegalArgumentException.class)
+	public void testRunningIntoException() {
+		
+		HL7Builder builderMock = mock(HL7Builder.class);
+		doThrow(new IllegalArgumentException()).when(builderMock).createPipeMessageAdmission(any(), any());
+		
+		builderMock.createPipeMessageAdmission(testPatientMock, null);
+	}
 	
+
 }

@@ -2,12 +2,10 @@ package com.id.hl7sim;
 
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import static org.mockito.Mockito.*;
-
 import com.id.hl7sim.database.PatientRepository;
 import com.id.hl7sim.database.PatientRepositoryMSSqlImpl;
 import com.id.hl7sim.patient.Patient;
@@ -18,14 +16,12 @@ import com.id.hl7sim.xml.Firstnames;
 import com.id.hl7sim.xml.Lastnames;
 import com.id.hl7sim.xml.Wards;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-
 import java.util.List;
 import java.sql.SQLException;
-
 import java.util.ArrayList;
-
 import javax.sql.DataSource;
 import javax.xml.bind.JAXB;
+
 
 public class PatientRepositoryMSSqlImplTest {
  

@@ -5,7 +5,6 @@ import javax.xml.bind.JAXB;
 import com.id.hl7sim.database.DatabaseManager;
 import com.id.hl7sim.database.PatientRepository;
 import com.id.hl7sim.database.PatientRepositoryMSSqlImpl;
-import com.id.hl7sim.database.PatientRepositoryMySqlImpl;
 import com.id.hl7sim.hl7.HL7Builder;
 import com.id.hl7sim.hl7.HL7BuilderImpl;
 import com.id.hl7sim.hl7.HL7Endpoint;

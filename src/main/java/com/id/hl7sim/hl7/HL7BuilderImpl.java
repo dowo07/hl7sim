@@ -218,7 +218,7 @@ public class HL7BuilderImpl implements HL7Builder {
 		setPV1Location(pv1, patient);
 	}
 
-	private void setPV1Time(PV1 pv1, Patient patient) throws DataTypeException {
+	public void setPV1Time(PV1 pv1, Patient patient) throws DataTypeException {
 		if (patient.getAdmissionDateTime() != null) {
 		pv1.getAdmitDateTime().getTimeOfAnEvent().setDateMinutePrecision(patient.getAdmissionDateTime().getYear(),
 				patient.getAdmissionDateTime().getMonthValue(), patient.getAdmissionDateTime().getDayOfMonth(),
@@ -229,6 +229,7 @@ public class HL7BuilderImpl implements HL7Builder {
 					patient.getDischargeDateTime().getMonthValue(), patient.getDischargeDateTime().getDayOfMonth(),
 					patient.getDischargeDateTime().getHour(), patient.getDischargeDateTime().getMinute());
 		}
+		
 	}
 
 	private void setPV1Location(PV1 pv1, Patient patient) throws DataTypeException {
