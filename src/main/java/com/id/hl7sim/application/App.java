@@ -2,9 +2,9 @@ package com.id.hl7sim.application;
 
 import java.util.List;
 import javax.xml.bind.JAXB;
-
 import com.id.hl7sim.database.DatabaseManager;
 import com.id.hl7sim.database.PatientRepository;
+import com.id.hl7sim.database.PatientRepositoryMSSqlImpl;
 import com.id.hl7sim.database.PatientRepositoryMySqlImpl;
 import com.id.hl7sim.hl7.HL7Builder;
 import com.id.hl7sim.hl7.HL7BuilderImpl;
@@ -27,6 +27,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class App {
 
+	
 	public static void main(String[] args) {
 
 		Departments departments = JAXB.unmarshal(ClassLoader.getSystemResource("departments.xml"), Departments.class);
@@ -38,13 +39,13 @@ public class App {
 
 		List<Patient> allPatients = myGenerator.createRandomPatients(100); 
 	
-		ComboPooledDataSource cpds = DatabaseManager.provideDataSource("MySql"); 
+		ComboPooledDataSource cpds = DatabaseManager.provideDataSource("MSSql"); 
 
-		PatientRepository myPatientRepository = new PatientRepositoryMySqlImpl(cpds, myGenerator);
+		PatientRepository myPatientRepository = new PatientRepositoryMSSqlImpl(cpds, myGenerator);
 		
-		myPatientRepository.insertListOfPatients(allPatients);
+		myPatientRepository.insertListOfPatients(allPatients); 
 
-		HL7Builder myHl7Builder = new HL7BuilderImpl();
+		HL7Builder myHl7Builder = new HL7BuilderImpl(); 
 
 		HL7Endpoint hl7endpoint = new HL7SocketEndpoint("localhost", 6661);
 
@@ -57,7 +58,7 @@ public class App {
 		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulatorImpl(myHospital, accelerationFactor);
 
 		myHospitalTimeSimulator.simulateDay();
-
 	}
 
+	
 }

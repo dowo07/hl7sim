@@ -14,7 +14,7 @@ import com.id.hl7sim.threads.AdmissionThread;
 
 public class AdmissionThreadTest {
 	
-	
+	 
 	Hospital hospitalMock;
 	AdmissionThread testAdmissionThread;
 	

@@ -1,16 +1,13 @@
 package com.id.hl7sim;
 
 
-import java.io.FileWriter;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-
+import org.mockito.Mockito;
 import com.id.hl7sim.hl7.Format;
 import com.id.hl7sim.hl7.HL7Builder;
 import com.id.hl7sim.hl7.HL7BuilderImpl;
@@ -20,46 +17,31 @@ import com.id.hl7sim.patient.Patient;
 
 public class HL7BuilderImplTest {
 	
-	
+	 
 	HL7Builder testHl7builder;
-	
+	Patient testPatientMock;
+	List<Patient> testPatients;
 	List<String> testAllHl7s;
-	
-	Patient testPatient;
-	
-	Patient testPatientTwo;
-	
-	List<Patient> testBothPatients;
-	
-	FileWriter fileWriter;
 	
 	
 	@Before
 	public void setUp() throws Exception {
 		
-		
 		testHl7builder = new HL7BuilderImpl();
 		
-		testPatient = new Patient.Builder().build();
-		testPatient.setBirthday(LocalDate.of(1911, 11, 11));
-		testPatient.setFirstname("Test");
-		testPatient.setLastname("Mann");
-		testPatient.setGender("M");
-		testPatient.setAdmissionDateTime(LocalDateTime.now());
-		testPatient.setDischargeDateTime(LocalDateTime.now());
+		testPatientMock = Mockito.mock(Patient.class);
+		Mockito.when(testPatientMock.getId()).thenReturn(42);
+		Mockito.when(testPatientMock.getLastname()).thenReturn("Meier");
+		Mockito.when(testPatientMock.getFirstname()).thenReturn("Albert");
+		Mockito.when(testPatientMock.getGender()).thenReturn("M");
+		Mockito.when(testPatientMock.getBirthday()).thenReturn(LocalDate.now());
 		
-		testPatientTwo = new Patient.Builder().build();
-		testPatientTwo = testPatient;
-	
-		testBothPatients = new ArrayList<Patient>();
+		
+		testPatients = new ArrayList<Patient>();
 		
 		testAllHl7s = new ArrayList<String>();
 		
-		testBothPatients.add(testPatient);
-		testBothPatients.add(testPatientTwo);
-		
-	
-		fileWriter = new FileWriter("testFile");
+		testPatients.add(testPatientMock);
 	}
 	
 	
@@ -99,63 +81,59 @@ public class HL7BuilderImplTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateMessageOnePatientWithoutType() {
 		
-		testHl7builder.createMessage(testPatient, null, Format.PIPE);
+		testHl7builder.createMessage(testPatientMock, null, Format.PIPE);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateMessageOnePatientWithoutFormat() {
 		
-		testHl7builder.createMessage(testPatient, Type.ADMISSION, null);
+		testHl7builder.createMessage(testPatientMock, Type.ADMISSION, null);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateMessageOnePatientWithWrongFormat() {
 		
-		testHl7builder.createMessage(testPatient, Type.ADMISSION, Format.UNKNOWN);
+		testHl7builder.createMessage(testPatientMock, Type.ADMISSION, Format.UNKNOWN);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateMessageOnePatientWithWrongType() {
 		
-		testHl7builder.createMessage(testPatient, Type.UNKNOWN, Format.PIPE);
+		testHl7builder.createMessage(testPatientMock, Type.UNKNOWN, Format.PIPE);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreatePipeMessageOnePatientNoType() {
 		
-		testHl7builder.createPipeMessage(testPatient, null);
+		testHl7builder.createPipeMessage(testPatientMock, null);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreatePipeMessageWithoutOnePatient() {
 		
-		testPatient = null;
+		testPatientMock = null;
 		
-		testHl7builder.createPipeMessage(testPatient, Type.ADMISSION);
+		testHl7builder.createPipeMessage(testPatientMock, Type.ADMISSION);
 	}
 	
 	@Test
 	public void testCreatePipeMessageOnePatientWrongType() {
 		
-		testHl7builder.createPipeMessage(testPatient, Type.TRANSFER);
+		testHl7builder.createPipeMessage(testPatientMock, Type.TRANSFER);
 	}
 	
 	@Test
 	public void testPatientSetFirstNameName() {
-		// Given
-		testPatient.setFirstname("Albert");
-		// When
-		String result = testHl7builder.createMessage(testPatient, Type.ADMISSION, Format.PIPE);
-		// Then
+	
+		String result = testHl7builder.createMessage(testPatientMock, Type.ADMISSION, Format.PIPE);
+	
 		assertTrue(result.contains("^Albert|"));		
 	}
 	
 	@Test
 	public void testPatientSetLastName() {
 	
-		testPatient.setLastname("Meier");
-		
-		String result = testHl7builder.createMessage(testPatient, Type.ADMISSION, Format.PIPE);
+		String result = testHl7builder.createMessage(testPatientMock, Type.ADMISSION, Format.PIPE);
 		
 		assertTrue(result.contains("|Meier^"));		
 	}
@@ -163,7 +141,7 @@ public class HL7BuilderImplTest {
 	@Test
 	public void testcreatePipeMessageAdmission() {
 	
-		String result = testHl7builder.createMessage(testPatient, Type.ADMISSION, Format.PIPE);
+		String result = testHl7builder.createMessage(testPatientMock, Type.ADMISSION, Format.PIPE);
 		
 		assertTrue(result.contains("|ADT^A01^ADT_A01"));
 	}
@@ -171,19 +149,9 @@ public class HL7BuilderImplTest {
 	@Test 
 	public void testcreatePipeMessageDischarge() {
 		
-		String result = testHl7builder.createMessage(testPatient, Type.DISCHARGE, Format.PIPE);
+		String result = testHl7builder.createMessage(testPatientMock, Type.DISCHARGE, Format.PIPE);
 		
 		assertTrue(result.contains("|ADT^A03^ADT_A03"));
-	}
-	
-	@Test
-	public void testWithIncompletePatientData() {
-		
-		testPatient.setLastname("");
-		
-		String result = testHl7builder.createPipeMessage(testPatient, Type.ADMISSION);
-		
-		System.out.println(result);
 	}
 	
 	

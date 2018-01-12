@@ -1,6 +1,5 @@
 package com.id.hl7sim.threads;
 
-
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
@@ -8,44 +7,44 @@ import org.slf4j.LoggerFactory;
 
 import com.id.hl7sim.hospital.Hospital;
 
- 
 public class AdmissionThread implements Runnable, ProcessThread {
 
-	
 	public Logger logger = LoggerFactory.getLogger(AdmissionThread.class);
 	public Hospital hospital;
 	public int accelerationFactor;
-	
-	public AdmissionThread(Hospital hospital, int accelerationFactor) { 
+
+	public AdmissionThread(Hospital hospital, int accelerationFactor) {
 		this.hospital = hospital;
 		this.accelerationFactor = accelerationFactor;
 	}
-		
+
 	public int getAccelerationFactor() {
 		return accelerationFactor;
 	}
- 
+
 	public void setAccelerationFactor(int accelerationFactor) {
 		this.accelerationFactor = accelerationFactor;
 	}
- 
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.id.hl7sim.threads.processThread#run()
 	 */
 	@Override
 	public void run() {
 		do {
-				try {
-					simulateWholeDay();
-				} catch (InterruptedException e) {
-					throw new RuntimeException("Error while simulating day");
-				}
-			
+			try {
+				simulateWholeDay();
+			} catch (InterruptedException e) {
+				throw new RuntimeException("Error while simulating day");
+			}
 		} while (true);
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.id.hl7sim.threads.processThread#simulateWholeDay()
 	 */
 	@Override
@@ -56,8 +55,9 @@ public class AdmissionThread implements Runnable, ProcessThread {
 		simulateEvening();
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.id.hl7sim.threads.processThread#simulateNight()
 	 */
 	@Override
@@ -71,8 +71,10 @@ public class AdmissionThread implements Runnable, ProcessThread {
 		TimeUnit.SECONDS.sleep(10800 / accelerationFactor);
 		this.hospital.admitPatient();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.id.hl7sim.threads.processThread#simulateMorning()
 	 */
 	@Override
@@ -93,8 +95,10 @@ public class AdmissionThread implements Runnable, ProcessThread {
 		TimeUnit.SECONDS.sleep(7200 / accelerationFactor);
 		this.hospital.admitPatient();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.id.hl7sim.threads.processThread#simulateAfternoon()
 	 */
 	@Override
@@ -108,8 +112,10 @@ public class AdmissionThread implements Runnable, ProcessThread {
 		TimeUnit.SECONDS.sleep(7200 / accelerationFactor);
 		this.hospital.admitPatient();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.id.hl7sim.threads.processThread#simulateEvening()
 	 */
 	@Override
@@ -124,5 +130,4 @@ public class AdmissionThread implements Runnable, ProcessThread {
 		this.hospital.admitPatient();
 	}
 
-	
 }
