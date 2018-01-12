@@ -16,7 +16,7 @@ public class HL7SenderImpl implements HL7Sender {
 
 	public HL7SenderImpl(HL7Endpoint endpoint) {
 		super();
-		this.endpoint = endpoint;
+		this.endpoint = endpoint; 
 	}
 
 	/*

@@ -37,6 +37,7 @@ public class HospitalTimeSimulatorImplTest {
 		testHospitalTimeSimulator = new HospitalTimeSimulatorImpl(hospitalMock, 4000);
 	}
 	
+	
 	@Test
 	public void testGetterSetter() {
 		
@@ -89,7 +90,5 @@ public class HospitalTimeSimulatorImplTest {
 		verify(hospitalMock, times(1)).getOccupiedBeds();
 	}
 	
-	
 
-	
 }

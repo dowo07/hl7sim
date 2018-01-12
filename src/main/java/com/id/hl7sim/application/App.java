@@ -25,7 +25,7 @@ import com.id.hl7sim.xml.Lastnames;
 import com.id.hl7sim.xml.Wards;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-public class App {
+public class App { 
 
 	
 	public static void main(String[] args) {

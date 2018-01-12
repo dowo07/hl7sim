@@ -1,94 +1,51 @@
 package com.id.hl7sim;
 
+
 import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.sql.DataSource;
-
+import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
-
-import com.id.hl7sim.database.DatabaseManager;
 import com.id.hl7sim.database.PatientRepository;
-import com.id.hl7sim.database.PatientRepositoryMSSqlImpl;
-import com.id.hl7sim.hl7.Format;
 import com.id.hl7sim.hl7.HL7Builder;
-import com.id.hl7sim.hl7.HL7Endpoint;
 import com.id.hl7sim.hl7.HL7Sender;
-import com.id.hl7sim.hl7.HL7SenderImpl;
-import com.id.hl7sim.hl7.HL7SocketEndpoint;
-import com.id.hl7sim.hl7.Type;
 import com.id.hl7sim.hospital.Hospital;
 import com.id.hl7sim.hospital.HospitalImpl;
-import com.id.hl7sim.patient.Patient;
-import com.id.hl7sim.patient.PatientGenerator;
-import com.id.hl7sim.patient.PatientGeneratorImpl;
-import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 
 public class HospitalImplTest {
-
-	
-	HL7Builder testHl7builder;
-
-	PatientRepository testPatientRepository;
-
-	List<String> testAllHl7s;
  
+	
 	Hospital testHospital;
-	
-	List<Patient> testBothPatients;
+	HL7Builder testHl7builderMock;
+	HL7Sender testHL7SenderMock;
+	PatientRepository testPatientRepositoryMock;
 
-	PatientGenerator testPatientGenerator;
-	
-	DataSource testDataSource;
-	
-	HL7Sender testSender;
-	
-	HL7Endpoint testEndpoint;
-	
-	
-	
-	ComboPooledDataSource cpds;
 	
 	@Before
 	public void setUp() throws Exception {
 
-		testAllHl7s = new ArrayList<String>();
+		testHl7builderMock = mock(HL7Builder.class);
+		
+		testHL7SenderMock = mock(HL7Sender.class);
+		
+		testPatientRepositoryMock = mock(PatientRepository.class);
+		
+		testHospital = new HospitalImpl(10, testHl7builderMock, testHL7SenderMock, testPatientRepositoryMock);
 
-		testBothPatients = new ArrayList<Patient>();
-		
-		cpds = DatabaseManager.provideDataSource("MSSql");
-		
-		testHl7builder = Mockito.mock(HL7Builder.class);
-
-		testPatientGenerator = Mockito.mock(PatientGeneratorImpl.class);
-
-		Mockito.when(testHl7builder.createMessage(Mockito.<Patient>any(), Mockito.<Type>any(), Mockito.<Format>any()))
-				.thenReturn("||||");
-		
-		
-		testEndpoint = new HL7SocketEndpoint("localhost", 6661);
-		
-		testSender = new HL7SenderImpl(testEndpoint);
-		
-		testPatientRepository = new PatientRepositoryMSSqlImpl(cpds, testPatientGenerator);
-
-		testHospital = new HospitalImpl(10, testHl7builder, testSender, testPatientRepository);
- 
+		when(testHl7builderMock.createMessage(any(), any(), any())).thenReturn("||||");
 	}
+
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testHospitalWithTooLessBeds() {
-		testHospital = new HospitalImpl(3, testHl7builder, testSender, testPatientRepository); 
+		
+		testHospital = new HospitalImpl(3, testHl7builderMock, testHL7SenderMock, testPatientRepositoryMock); 
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testHospitalWithTooManyBeds() {
-		testHospital = new HospitalImpl(1001, testHl7builder, testSender, testPatientRepository);
+		
+		testHospital = new HospitalImpl(1001, testHl7builderMock, testHL7SenderMock, testPatientRepositoryMock);
 	}
 
 	@Test
@@ -155,6 +112,7 @@ public class HospitalImplTest {
 
 	@Test
 	public void testDischargeRandomPatient() {
+		
 		testHospital.addPatient();
 		testHospital.dischargePatient();
 	}
@@ -167,4 +125,5 @@ public class HospitalImplTest {
 		assertTrue(testHospital.getCapacity() == 0);
 	}
 
+	
 }

@@ -18,7 +18,7 @@ import com.id.hl7sim.patient.Patient;
 public class HL7BuilderImplTest {
 	
 	 
-	HL7Builder testHl7builder;
+	HL7Builder testHl7builder; 
 	Patient testPatientMock;
 	List<Patient> testPatients;
 	List<String> testAllHl7s;

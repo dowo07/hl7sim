@@ -18,7 +18,7 @@ public class HospitalTimeSimulatorImpl implements HospitalTimeSimulator {
 	 
 	
 	public int getAccelerationFactor() { 
-		return accelerationFactor;
+		return accelerationFactor; 
 	}
 
 	public void setAccelerationFactor(int accelerationFactor) {

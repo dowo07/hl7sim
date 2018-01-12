@@ -24,6 +24,7 @@ public class PatientTest {
 
 	@Test
 	public void testCopyConstructor() {
+		
 		testPatientTwo = Patient.newInstance(testPatient);
 				
 		

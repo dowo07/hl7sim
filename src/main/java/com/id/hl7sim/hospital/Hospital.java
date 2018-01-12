@@ -1,5 +1,6 @@
 package com.id.hl7sim.hospital;
 
+
 public interface Hospital {
 
 	int getCapacity();
@@ -18,24 +19,11 @@ public interface Hospital {
 
 	boolean occupiedBedsCheck();
 
-	/* (non-Javadoc)
-	 * @see com.id.hl7sim.Hospital#admitPatient()
-	 */
 	void admitPatient();
 
-	/* (non-Javadoc)
-	 * @see com.id.hl7sim.Hospital#transferPatient()
-	 */
 	void transferPatient();
 
-	/* (non-Javadoc)
-	 * @see com.id.hl7sim.Hospital#dischargePatient()
-	 */
 	void dischargePatient();
 
-	//	/* (non-Javadoc)
-	//	 * @see com.id.hl7sim.Hospital#autoFillHospital()
-	//	 */
 	void autoFillHospital();
-
 }
