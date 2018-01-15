@@ -25,7 +25,7 @@ public class AdmissionThread implements Runnable, ProcessThread {
 	public void setAccelerationFactor(int accelerationFactor) {
 		this.accelerationFactor = accelerationFactor;
 	}
-
+ 
 	/*
 	 * (non-Javadoc)
 	 * 

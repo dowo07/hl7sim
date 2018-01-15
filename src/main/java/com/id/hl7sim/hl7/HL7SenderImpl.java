@@ -29,7 +29,7 @@ public class HL7SenderImpl implements HL7Sender {
 		if (allHL7s == null) {
 			throw new IllegalArgumentException("No HL7 Messages there");
 		} else {
-
+ 
 			BufferedWriter writer = null;
 			try {
 				File logFile = new File("hl7LogFile_" + LocalDateTime.now().toString());

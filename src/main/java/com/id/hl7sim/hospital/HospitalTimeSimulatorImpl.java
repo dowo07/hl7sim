@@ -22,7 +22,7 @@ public class HospitalTimeSimulatorImpl implements HospitalTimeSimulator {
 	}
 
 	public void setAccelerationFactor(int accelerationFactor) {
-		this.accelerationFactor = accelerationFactor;
+		this.accelerationFactor = accelerationFactor; 
 	}
 
 	public HospitalTimeSimulatorImpl(Hospital hospital, int accelerationFactor) {
