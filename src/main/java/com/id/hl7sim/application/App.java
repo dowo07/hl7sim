@@ -4,7 +4,7 @@ import java.util.List;
 import javax.xml.bind.JAXB;
 import com.id.hl7sim.database.DatabaseManager;
 import com.id.hl7sim.database.PatientRepository;
-import com.id.hl7sim.database.PatientRepositoryMSSqlImpl;
+import com.id.hl7sim.database.PatientRepositoryMySqlImpl;
 import com.id.hl7sim.hl7.HL7Builder;
 import com.id.hl7sim.hl7.HL7BuilderImpl;
 import com.id.hl7sim.hl7.HL7Endpoint;
@@ -38,10 +38,10 @@ public class App {
 
 		List<Patient> allPatients = myGenerator.createRandomPatients(100); 
 	
-		ComboPooledDataSource cpds = DatabaseManager.provideDataSource("MSSql"); 
+		ComboPooledDataSource cpds = DatabaseManager.provideDataSource("MySql"); 
 
-		PatientRepository myPatientRepository = new PatientRepositoryMSSqlImpl(cpds, myGenerator);
-		
+		PatientRepository myPatientRepository = new PatientRepositoryMySqlImpl(cpds, myGenerator);
+		 
 		myPatientRepository.insertListOfPatients(allPatients); 
 
 		HL7Builder myHl7Builder = new HL7BuilderImpl(); 

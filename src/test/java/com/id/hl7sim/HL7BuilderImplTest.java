@@ -1,14 +1,16 @@
 package com.id.hl7sim;
 
 
+import java.io.FileWriter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
+
 import com.id.hl7sim.hl7.Format;
 import com.id.hl7sim.hl7.HL7Builder;
 import com.id.hl7sim.hl7.HL7BuilderImpl;
@@ -16,33 +18,50 @@ import com.id.hl7sim.hl7.Type;
 import com.id.hl7sim.patient.Patient;
 
 
+
+
 public class HL7BuilderImplTest {
 	
-	 
-	HL7Builder testHl7builder; 
-	Patient testPatientMock;
-	List<Patient> testPatients;
+	
+	HL7Builder testHl7builder;
+	
 	List<String> testAllHl7s;
+	
+	Patient testPatient;
+	
+	Patient testPatientTwo;
+	
+	List<Patient> testBothPatients;
+	
+	FileWriter fileWriter;
 	
 	
 	@Before
 	public void setUp() throws Exception {
 		
+		
 		testHl7builder = new HL7BuilderImpl();
 		
-		testPatientMock = Mockito.mock(Patient.class);
-		Mockito.when(testPatientMock.getId()).thenReturn(42);
-		Mockito.when(testPatientMock.getLastname()).thenReturn("Meier");
-		Mockito.when(testPatientMock.getFirstname()).thenReturn("Albert");
-		Mockito.when(testPatientMock.getGender()).thenReturn("M");
-		Mockito.when(testPatientMock.getBirthday()).thenReturn(LocalDate.now());
+		testPatient = new Patient.Builder().build();
+		testPatient.setBirthday(LocalDate.of(1911, 11, 11));
+		testPatient.setFirstname("Test");
+		testPatient.setLastname("Mann");
+		testPatient.setGender("M");
+		testPatient.setAdmissionDateTime(LocalDateTime.now());
+		testPatient.setDischargeDateTime(LocalDateTime.now());
 		
-		
-		testPatients = new ArrayList<Patient>();
+		testPatientTwo = new Patient.Builder().build();
+		testPatientTwo = testPatient;
+	
+		testBothPatients = new ArrayList<Patient>();
 		
 		testAllHl7s = new ArrayList<String>();
 		
-		testPatients.add(testPatientMock);
+		testBothPatients.add(testPatient);
+		testBothPatients.add(testPatientTwo);
+		
+	
+		fileWriter = new FileWriter("testFile");
 	}
 	
 	
@@ -52,7 +71,7 @@ public class HL7BuilderImplTest {
 		int result = HL7BuilderImpl.getMessageControlId();
 		
 		assertTrue(result == 0);
-	} 
+	}
 	
 	@Test
 	public void testAllHl7sAtBegin() {
@@ -82,59 +101,63 @@ public class HL7BuilderImplTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateMessageOnePatientWithoutType() {
 		
-		testHl7builder.createMessage(testPatientMock, null, Format.PIPE);
+		testHl7builder.createMessage(testPatient, null, Format.PIPE);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateMessageOnePatientWithoutFormat() {
 		
-		testHl7builder.createMessage(testPatientMock, Type.ADMISSION, null);
+		testHl7builder.createMessage(testPatient, Type.ADMISSION, null);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateMessageOnePatientWithWrongFormat() {
 		
-		testHl7builder.createMessage(testPatientMock, Type.ADMISSION, Format.UNKNOWN);
+		testHl7builder.createMessage(testPatient, Type.ADMISSION, Format.UNKNOWN);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateMessageOnePatientWithWrongType() {
 		
-		testHl7builder.createMessage(testPatientMock, Type.UNKNOWN, Format.PIPE);
+		testHl7builder.createMessage(testPatient, Type.UNKNOWN, Format.PIPE);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreatePipeMessageOnePatientNoType() {
 		
-		testHl7builder.createPipeMessage(testPatientMock, null);
+		testHl7builder.createPipeMessage(testPatient, null);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreatePipeMessageWithoutOnePatient() {
 		
-		testPatientMock = null;
+		testPatient = null;
 		
-		testHl7builder.createPipeMessage(testPatientMock, Type.ADMISSION);
+		testHl7builder.createPipeMessage(testPatient, Type.ADMISSION);
 	}
 	
 	@Test
 	public void testCreatePipeMessageOnePatientWrongType() {
 		
-		testHl7builder.createPipeMessage(testPatientMock, Type.TRANSFER);
+		testHl7builder.createPipeMessage(testPatient, Type.TRANSFER);
 	}
 	
 	@Test
 	public void testPatientSetFirstNameName() {
-	
-		String result = testHl7builder.createMessage(testPatientMock, Type.ADMISSION, Format.PIPE);
-	
+		// Given
+		testPatient.setFirstname("Albert");
+		// When
+		String result = testHl7builder.createMessage(testPatient, Type.ADMISSION, Format.PIPE);
+		// Then
 		assertTrue(result.contains("^Albert|"));		
 	}
 	
 	@Test
 	public void testPatientSetLastName() {
 	
-		String result = testHl7builder.createMessage(testPatientMock, Type.ADMISSION, Format.PIPE);
+		testPatient.setLastname("Meier");
+		
+		String result = testHl7builder.createMessage(testPatient, Type.ADMISSION, Format.PIPE);
 		
 		assertTrue(result.contains("|Meier^"));		
 	}
@@ -142,7 +165,7 @@ public class HL7BuilderImplTest {
 	@Test
 	public void testcreatePipeMessageAdmission() {
 	
-		String result = testHl7builder.createMessage(testPatientMock, Type.ADMISSION, Format.PIPE);
+		String result = testHl7builder.createMessage(testPatient, Type.ADMISSION, Format.PIPE);
 		
 		assertTrue(result.contains("|ADT^A01^ADT_A01"));
 	}
@@ -150,19 +173,20 @@ public class HL7BuilderImplTest {
 	@Test 
 	public void testcreatePipeMessageDischarge() {
 		
-		String result = testHl7builder.createMessage(testPatientMock, Type.DISCHARGE, Format.PIPE);
+		String result = testHl7builder.createMessage(testPatient, Type.DISCHARGE, Format.PIPE);
 		
 		assertTrue(result.contains("|ADT^A03^ADT_A03"));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void testRunningIntoException() {
+	@Test
+	public void testWithIncompletePatientData() {
 		
-		HL7Builder builderMock = mock(HL7Builder.class);
-		doThrow(new IllegalArgumentException()).when(builderMock).createPipeMessageAdmission(any(), any());
+		testPatient.setLastname("");
 		
-		builderMock.createPipeMessageAdmission(testPatientMock, null);
+		String result = testHl7builder.createPipeMessage(testPatient, Type.ADMISSION);
+		
+		System.out.println(result);
 	}
 	
-
+	
 }
