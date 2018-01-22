@@ -54,10 +54,10 @@ public class App {
 
 		Hospital myHospital = new HospitalImpl(100, myHl7Builder, myHL7Sender, myPatientRepository);
 
-		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulatorImpl(myHospital, 25000);
+		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulatorImpl(myHospital, 4000);
 
 		myHospitalTimeSimulator.simulateDay(); 
 	} 
-
+ 
 	
 }

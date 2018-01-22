@@ -24,7 +24,7 @@ public class AdmissionThread implements Runnable, ProcessThread {
 
 	public void setAccelerationFactor(int accelerationFactor) {
 		this.accelerationFactor = accelerationFactor;
-	}
+	} 
  
 	/*
 	 * (non-Javadoc)
@@ -49,12 +49,20 @@ public class AdmissionThread implements Runnable, ProcessThread {
 	 */
 	@Override
 	public void simulateWholeDay() throws InterruptedException {
+		System.out.println("Patients in Hospital: " + hospital.getOccupiedBeds());
+		TimeUnit.SECONDS.sleep(3);
 		simulateNight();
 		simulateMorning();
 		simulateAfternoon();
 		simulateEvening();
 	}
-
+	
+	
+	public void doAdmission() {
+		if(this.hospital.freeBedsCheck()) {
+			this.hospital.admitPatient();
+		}
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -63,14 +71,15 @@ public class AdmissionThread implements Runnable, ProcessThread {
 	@Override
 	public void simulateNight() throws InterruptedException {
 		TimeUnit.SECONDS.sleep(7200 / accelerationFactor);
-		this.hospital.admitPatient();
+		doAdmission();
 		TimeUnit.SECONDS.sleep(1800 / accelerationFactor);
-		this.hospital.admitPatient();
+		doAdmission();
 		TimeUnit.SECONDS.sleep(600 / accelerationFactor);
-		this.hospital.admitPatient();
+		doAdmission();
 		TimeUnit.SECONDS.sleep(10800 / accelerationFactor);
-		this.hospital.admitPatient();
+		doAdmission();
 	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -80,20 +89,20 @@ public class AdmissionThread implements Runnable, ProcessThread {
 	@Override
 	public void simulateMorning() throws InterruptedException {
 		TimeUnit.SECONDS.sleep(60 / accelerationFactor);
-		this.hospital.admitPatient();
+		doAdmission();
 		TimeUnit.SECONDS.sleep(1740 / accelerationFactor);
-		this.hospital.admitPatient();
+		doAdmission();
 		TimeUnit.SECONDS.sleep(1200 / accelerationFactor);
-		this.hospital.admitPatient();
-		this.hospital.admitPatient();
+		doAdmission();
+		doAdmission();
 		TimeUnit.SECONDS.sleep(4200 / accelerationFactor);
-		this.hospital.admitPatient();
+		doAdmission();
 		TimeUnit.SECONDS.sleep(3600 / accelerationFactor);
-		this.hospital.admitPatient();
+		doAdmission();
 		TimeUnit.SECONDS.sleep(3600 / accelerationFactor);
-		this.hospital.admitPatient();
+		doAdmission();
 		TimeUnit.SECONDS.sleep(7200 / accelerationFactor);
-		this.hospital.admitPatient();
+		doAdmission();
 	}
 
 	/*
@@ -104,13 +113,13 @@ public class AdmissionThread implements Runnable, ProcessThread {
 	@Override
 	public void simulateAfternoon() throws InterruptedException {
 		TimeUnit.SECONDS.sleep(4200 / accelerationFactor);
-		this.hospital.admitPatient();
+		doAdmission();
 		TimeUnit.SECONDS.sleep(3600 / accelerationFactor);
-		this.hospital.admitPatient();
+		doAdmission();
 		TimeUnit.SECONDS.sleep(3600 / accelerationFactor);
-		this.hospital.admitPatient();
+		doAdmission();
 		TimeUnit.SECONDS.sleep(7200 / accelerationFactor);
-		this.hospital.admitPatient();
+		doAdmission();
 	}
 
 	/*
@@ -121,13 +130,13 @@ public class AdmissionThread implements Runnable, ProcessThread {
 	@Override
 	public void simulateEvening() throws InterruptedException {
 		TimeUnit.SECONDS.sleep(7200 / accelerationFactor);
-		this.hospital.admitPatient();
+		doAdmission();
 		TimeUnit.SECONDS.sleep(1800 / accelerationFactor);
-		this.hospital.admitPatient();
+		doAdmission();
 		TimeUnit.SECONDS.sleep(600 / accelerationFactor);
-		this.hospital.admitPatient();
+		doAdmission();
 		TimeUnit.SECONDS.sleep(10800 / accelerationFactor);
-		this.hospital.admitPatient();
+		doAdmission();
 	}
 
 }
