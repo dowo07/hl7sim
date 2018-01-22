@@ -9,7 +9,7 @@ public class HL7SocketEndpoint implements HL7Endpoint {
 	private String host;
 
 	private int port;
-
+	
 	public HL7SocketEndpoint(String host, int port) { 
 		this.host = host;
 		this.port = port;
@@ -28,7 +28,9 @@ public class HL7SocketEndpoint implements HL7Endpoint {
 
 				@Override
 				public void write(int b) throws IOException {
+				
 					output.write(b);
+			
 				}
 
 				@Override

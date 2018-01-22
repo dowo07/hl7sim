@@ -23,6 +23,9 @@ public class InPatientRowMapper implements RowMapper<Patient> {
 	 
 	public LocalDateTime parseLocalDateTime(String localdatetime) {
 		localdatetime = localdatetime.replace("T", "");
+		if(localdatetime.length() <= 18) {
+			localdatetime += ".000";
+		}
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm:ss.SSS");
 		LocalDateTime formattedLocalDateTime = LocalDateTime.parse(localdatetime, formatter);
 		return formattedLocalDateTime;

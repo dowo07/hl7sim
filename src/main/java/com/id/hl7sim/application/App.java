@@ -5,6 +5,7 @@ import javax.xml.bind.JAXB;
 import com.id.hl7sim.database.DatabaseManager;
 import com.id.hl7sim.database.PatientRepository;
 import com.id.hl7sim.database.PatientRepositoryMSSqlImpl;
+import com.id.hl7sim.database.PatientRepositoryMySqlImpl;
 import com.id.hl7sim.hl7.HL7Builder;
 import com.id.hl7sim.hl7.HL7BuilderImpl;
 import com.id.hl7sim.hl7.HL7Endpoint;
@@ -27,46 +28,9 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class App { 
 	
-	private static int accelerationFactor;
-	private static int numberOfBeds;
-	private static String ip;
-	private static int port;
-	
-
-	public static int getAccelerationFactor() {
-		return accelerationFactor;
-	}
-	
-	public static void setAccelerationFactor(int accelerationFactor) {
-		App.accelerationFactor = accelerationFactor;
-	}
-
-	public static int getNumberOfBeds() {
-		return numberOfBeds;
-	}
-
-	public static void setNumberOfBeds(int numberOfBeds) {
-		App.numberOfBeds = numberOfBeds;
-	}
-
-	public static String getIp() {
-		return ip;
-	}
-
-	public static void setIp(String ip) {
-		App.ip = ip;
-	}
-
-	public static int getPort() {
-		return port;
-	}
-
-	public static void setPort(int port) {
-		App.port = port;
-	}
 
 	public static void main(String[] args) {
-
+		
 		Departments departments = JAXB.unmarshal(ClassLoader.getSystemResource("departments.xml"), Departments.class);
 		Wards wards = JAXB.unmarshal(ClassLoader.getSystemResource("wards.xml"), Wards.class);
 		Lastnames lastnames = JAXB.unmarshal(ClassLoader.getSystemResource("lastnames.xml"), Lastnames.class);
@@ -84,13 +48,13 @@ public class App {
 
 		HL7Builder myHl7Builder = new HL7BuilderImpl(); 
 
-		HL7Endpoint hl7endpoint = new HL7SocketEndpoint(App.getIp(), App.getPort());
+		HL7Endpoint hl7endpoint = new HL7SocketEndpoint("localhost", 6661);
 
 		HL7Sender myHL7Sender = new HL7SenderImpl(hl7endpoint);
 
-		Hospital myHospital = new HospitalImpl(App.getNumberOfBeds(), myHl7Builder, myHL7Sender, myPatientRepository);
+		Hospital myHospital = new HospitalImpl(100, myHl7Builder, myHL7Sender, myPatientRepository);
 
-		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulatorImpl(myHospital, App.getAccelerationFactor());
+		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulatorImpl(myHospital, 25000);
 
 		myHospitalTimeSimulator.simulateDay(); 
 	} 

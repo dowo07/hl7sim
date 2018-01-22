@@ -94,16 +94,7 @@ public class WindowApp {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				
-				String noB = textField.getText();
-				App.setNumberOfBeds(Integer.parseInt(noB));
-				
-				String aF = textField_1.getText();
-				App.setAccelerationFactor(Integer.parseInt(aF));
-
-				App.setIp(textField_2.getText());
-
-				String p = textField_3.getText();
-				App.setPort(Integer.parseInt(p));
+					// Read Values from Textfields
 				
 				if (chckbxAutocreateDatabasefirst.isSelected()) {
 					// AUTO CREATE DATABASE
@@ -118,8 +109,8 @@ public class WindowApp {
 		btnStartSimulation.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				App.main(null);
+		
+				// Begin processing
 			}
 		});
 		btnStartSimulation.setBounds(10, 294, 141, 23);
@@ -129,7 +120,7 @@ public class WindowApp {
 		btnStopSimulation.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
+				//Stop Processing
 			}
 		});
 		btnStopSimulation.setBounds(173, 294, 141, 23);

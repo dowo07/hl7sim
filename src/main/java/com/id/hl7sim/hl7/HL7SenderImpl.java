@@ -60,9 +60,10 @@ public class HL7SenderImpl implements HL7Sender {
 			System.out.println("sendMessage: " + Thread.currentThread().getName());
 			try (OutputStream outputStream = endpoint.getOutputStream()) {
 				outputStream.write(message.getBytes(StandardCharsets.UTF_8));
+			
 				return;
 			} catch (IOException e) {
-				System.out.println("Error occured during send, retrying...");
+			System.out.println("Error occured during send, retrying..." + e.toString());
 				try {
 					TimeUnit.SECONDS.sleep(2);
 				} catch (InterruptedException e1) {
