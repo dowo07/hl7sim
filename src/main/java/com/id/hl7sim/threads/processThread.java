@@ -17,5 +17,7 @@ public interface ProcessThread {
 	void simulateAfternoon() throws InterruptedException;
 
 	void simulateEvening() throws InterruptedException;
+	
+
 
 }

@@ -135,7 +135,7 @@ public class HospitalImpl implements Hospital {
 		String message = builder.createMessage(patient, Type.ADMISSION, Format.PIPE);
 		sender.sendMessage(message);
 	}
-
+ 
 	/*
 	 * (non-Javadoc)
 	 * 

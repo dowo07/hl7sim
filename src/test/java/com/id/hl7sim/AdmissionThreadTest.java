@@ -30,55 +30,62 @@ public class AdmissionThreadTest {
 	@Test
 	public void testSimulateWholeDay() { 
 		
+		AdmissionThread spy = Mockito.spy(testAdmissionThread);
 		try {
-			testAdmissionThread.simulateWholeDay();
-		} catch (InterruptedException e) {}
-		
-		verify(hospitalMock, atLeast(18)).admitPatient();
+			spy.simulateWholeDay();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		verify(spy, times(20)).doAdmission();
 	}
 	
 	@Test
 	public void testSimulateNight() {
 		
-		//when
+		AdmissionThread spy = Mockito.spy(testAdmissionThread);
 		try {
-			testAdmissionThread.simulateNight();
-		} catch (InterruptedException e) {}
-		
-		//then
-		verify(hospitalMock, times(4)).admitPatient();
-		verify(hospitalMock, never()).dischargePatient();
-		verify(hospitalMock, never()).transferPatient();
+			spy.simulateNight();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		verify(spy, times(4)).doAdmission();
 	}
 	
 	@Test
 	public void testSimulateMorning() { 
 		
+		AdmissionThread spy = Mockito.spy(testAdmissionThread);
 		try {
-			testAdmissionThread.simulateMorning();
-		} catch (InterruptedException e) {}
-		
-		verify(hospitalMock, times(8)).admitPatient();
+			spy.simulateMorning();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		verify(spy, times(8)).doAdmission();
 	}
 	
 	@Test
 	public void testSimulateAfternoon() {
 		
+		AdmissionThread spy = Mockito.spy(testAdmissionThread);
 		try {
-			testAdmissionThread.simulateAfternoon();
-		} catch (InterruptedException e) {}
-		
-		verify(hospitalMock, times(4)).admitPatient();
+			spy.simulateAfternoon();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		verify(spy, times(4)).doAdmission();
 	}
 	
 	@Test
 	public void testSimulateEvening() {
 		
+	
+		AdmissionThread spy = Mockito.spy(testAdmissionThread);
 		try {
-			testAdmissionThread.simulateEvening();
-		} catch (InterruptedException e) {}
-		
-		verify(hospitalMock, times(4)).admitPatient();
+			spy.simulateEvening();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		verify(spy, times(4)).doAdmission();
 	}
 	 
 	@Test

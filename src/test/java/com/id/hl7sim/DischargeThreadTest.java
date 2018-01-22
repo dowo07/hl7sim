@@ -30,55 +30,61 @@ public class DischargeThreadTest {
 	@Test
 	public void testSimulateWholeDay() { 
 		
+		DischargeThread spy = Mockito.spy(testDischargeThread);
 		try {
-			testDischargeThread.simulateWholeDay();
-		} catch (InterruptedException e) {}
-		
-		verify(hospitalMock, atLeast(18)).dischargePatient();
+			spy.simulateWholeDay();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		verify(spy, times(18)).doDischarge();
 	}
 	
 	@Test
 	public void testSimulateNight() {
 		
-		//when
+		DischargeThread spy = Mockito.spy(testDischargeThread);
 		try {
-			testDischargeThread.simulateNight();
-		} catch (InterruptedException e) {}
-		
-		//then
-		verify(hospitalMock, times(2)).dischargePatient();
-		verify(hospitalMock, never()).admitPatient();
-		verify(hospitalMock, never()).transferPatient();
+			spy.simulateNight();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		verify(spy, times(2)).doDischarge();
 	}
 	
 	@Test
 	public void testSimulateMorning() { 
 		
+		DischargeThread spy = Mockito.spy(testDischargeThread);
 		try {
-			testDischargeThread.simulateMorning();
-		} catch (InterruptedException e) {}
-		
-		verify(hospitalMock, times(8)).dischargePatient();
+			spy.simulateMorning();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		verify(spy, times(7)).doDischarge();
 	}
 	
 	@Test
 	public void testSimulateAfternoon() {
 		
+		DischargeThread spy = Mockito.spy(testDischargeThread);
 		try {
-			testDischargeThread.simulateAfternoon();
-		} catch (InterruptedException e) {}
-		
-		verify(hospitalMock, times(8)).dischargePatient();
+			spy.simulateAfternoon();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		verify(spy, times(7)).doDischarge();
 	}
 	
 	@Test
 	public void testSimulateEvening() {
 		
+		DischargeThread spy = Mockito.spy(testDischargeThread);
 		try {
-			testDischargeThread.simulateEvening();
-		} catch (InterruptedException e) {}
-		
-		verify(hospitalMock, times(2)).dischargePatient();
+			spy.simulateEvening();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		verify(spy, times(2)).doDischarge();
 	}
 	
 	@Test

@@ -25,7 +25,7 @@ public class DischargeThread implements Runnable, ProcessThread {
 		this.accelerationFactor = accelerationFactor;
 	}
  
-	public void run() {
+	public void run() { 
 		do {
 			try {
 				simulateWholeDay();

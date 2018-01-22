@@ -25,7 +25,7 @@ public class AdmissionThread implements Runnable, ProcessThread {
 	public void setAccelerationFactor(int accelerationFactor) {
 		this.accelerationFactor = accelerationFactor;
 	} 
- 
+  
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -49,8 +49,6 @@ public class AdmissionThread implements Runnable, ProcessThread {
 	 */
 	@Override
 	public void simulateWholeDay() throws InterruptedException {
-		System.out.println("Patients in Hospital: " + hospital.getOccupiedBeds());
-		TimeUnit.SECONDS.sleep(3);
 		simulateNight();
 		simulateMorning();
 		simulateAfternoon();
