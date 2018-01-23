@@ -52,11 +52,12 @@ public class App {
 
 		HL7Sender myHL7Sender = new HL7SenderImpl(hl7endpoint);
 
-		Hospital myHospital = new HospitalImpl(100, myHl7Builder, myHL7Sender, myPatientRepository);
+		Hospital myHospital = new HospitalImpl(20, myHl7Builder, myHL7Sender, myPatientRepository);
+		
+		myHospital.admitPatient();
+		
 
-		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulatorImpl(myHospital, 4000);
-
-		myHospitalTimeSimulator.simulateDay(); 
+		
 	} 
  
 	

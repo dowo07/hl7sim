@@ -3,12 +3,13 @@ package com.id.hl7sim.patient;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class Patient {
 
-	private int id;
-	private int instance;
+	private AtomicInteger id = new AtomicInteger(0000000001);
+	private AtomicInteger instance = new AtomicInteger(1);
 	private String lastname;
 	private String firstname;
 	private String gender;
@@ -23,19 +24,19 @@ public class Patient {
 	private int lengthOfStay;
 	
 	public int getId() {
-		return id; 
+		return id.get(); 
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.id.set(id);
 	} 
 
 	public int getInstance() {
-		return instance;
+		return instance.get();
 	}
 
 	public void setInstance(int instance) {
-		this.instance = instance;
+		this.instance.set(instance);;
 	}
 
 	public String getLastname() {
@@ -137,10 +138,8 @@ public class Patient {
 
 	public static class Builder {
 		
-//		private static final AtomicInteger count = new AtomicInteger(0);
-//		private static final AtomicInteger countTwo = new AtomicInteger(0);
-		private int id;
-		private int instance;
+		private AtomicInteger id = new AtomicInteger(1);
+		private AtomicInteger instance = new AtomicInteger(1);
 		private String lastname;
 		private String firstname;
 		private String gender;
@@ -155,12 +154,12 @@ public class Patient {
 		private int lengthOfStay;
 
 		public Builder id(int id) {
-			this.id = id;
+			this.id.set(id);;
 			return this;
 		}
 
 		public Builder instance(int instance) {
-			this.instance = instance;
+			this.instance.set(instance);
 			return this;
 		}
 
