@@ -37,14 +37,14 @@ public class App {
 		Firstnames firstnames = JAXB.unmarshal(ClassLoader.getSystemResource("firstnames.xml"), Firstnames.class);
 
 		PatientGenerator myGenerator = new PatientGeneratorImpl(firstnames, lastnames, departments, wards);
-
-		List<Patient> allPatients = myGenerator.createRandomPatients(100); 
-	
+//
+//		List<Patient> allPatients = myGenerator.createRandomPatients(10); 
+//	
 		ComboPooledDataSource cpds = DatabaseManager.provideDataSource("MSSql"); 
-
+//
 		PatientRepository myPatientRepository = new PatientRepositoryMSSqlImpl(cpds, myGenerator);
-		 
-		myPatientRepository.insertListOfPatients(allPatients); 
+//		 
+//		myPatientRepository.insertListOfPatients(allPatients); 
 
 		HL7Builder myHl7Builder = new HL7BuilderImpl(); 
 
@@ -55,6 +55,8 @@ public class App {
 		Hospital myHospital = new HospitalImpl(20, myHl7Builder, myHL7Sender, myPatientRepository);
 		
 		myHospital.admitPatient();
+	
+		
 		
 
 		
