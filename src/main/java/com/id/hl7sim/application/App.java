@@ -65,9 +65,9 @@ public class App {
 
 		Hospital myHospital = new HospitalImpl(100, myHl7Builder, myHL7Sender, myPatientRepository);
 		
-		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulatorImpl(myHospital, 1000);
-		
-		myHospitalTimeSimulator.simulateDay();
+//		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulatorImpl(myHospital, 1000);
+//		
+//		myHospitalTimeSimulator.simulateDay();
 	} 
  
 	
