@@ -67,7 +67,7 @@ public class HL7SenderImpl implements HL7Sender {
 				try {
 					TimeUnit.SECONDS.sleep(2);
 				} catch (InterruptedException e1) {
-					// Ignore InterruptedException
+					
 				}
 			}
 			retries--;

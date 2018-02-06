@@ -31,6 +31,17 @@ public class App {
 
 	public static void main(String[] args) {
 		
+		
+		/**
+		 * TODO:
+		 * 
+		 * isPatientInHospital
+		 * borders for capacity working?
+		 * hl7 prefix
+		 * high speed socket exception
+		 * dbTests
+		 * 
+		 */
 		Departments departments = JAXB.unmarshal(ClassLoader.getSystemResource("departments.xml"), Departments.class);
 		Wards wards = JAXB.unmarshal(ClassLoader.getSystemResource("wards.xml"), Wards.class);
 		Lastnames lastnames = JAXB.unmarshal(ClassLoader.getSystemResource("lastnames.xml"), Lastnames.class);
@@ -38,7 +49,7 @@ public class App {
 
 		PatientGenerator myGenerator = new PatientGeneratorImpl(firstnames, lastnames, departments, wards);
 
-		List<Patient> allPatients = myGenerator.createRandomPatients(100); 
+		List<Patient> allPatients = myGenerator.createRandomPatients(500); 
 	
 		ComboPooledDataSource cpds = DatabaseManager.provideDataSource("MSSql"); 
 
@@ -52,17 +63,11 @@ public class App {
 
 		HL7Sender myHL7Sender = new HL7SenderImpl(hl7endpoint);
 
-		Hospital myHospital = new HospitalImpl(20, myHl7Builder, myHL7Sender, myPatientRepository);
+		Hospital myHospital = new HospitalImpl(100, myHl7Builder, myHL7Sender, myPatientRepository);
 		
-		myHospital.admitPatient();
-		myHospital.admitPatient();
-		myHospital.admitPatient();
-		myHospital.admitPatient();
+		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulatorImpl(myHospital, 1000);
 		
-		myHospital.transferPatient();
-		
-		myHospital.dischargePatient();
-		myHospital.dischargePatient();
+		myHospitalTimeSimulator.simulateDay();
 	} 
  
 	
