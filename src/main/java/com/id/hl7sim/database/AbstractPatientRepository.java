@@ -26,8 +26,8 @@ public abstract class AbstractPatientRepository implements PatientRepository {
 	} 
 	
 	public void insertPatient(Patient patient) {
-		template.update("INSERT INTO tbl_patient(lastname, firstname, gender, birthday) VALUES(?,?,?,?)",
-				patient.getLastname(), patient.getFirstname(), patient.getGender(), patient.getBirthday().toString());
+		template.update("INSERT INTO tbl_patient(id, lastname, firstname, gender, birthday) VALUES(?,?,?,?,?)",
+				patient.getId(), patient.getLastname(), patient.getFirstname(), patient.getGender(), patient.getBirthday().toString());
 	}
 	
 	public void insertListOfPatients(List<Patient> allPatients) {

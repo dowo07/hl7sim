@@ -2,7 +2,7 @@ package com.id.hl7sim.patient;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 public class Patient {
 
@@ -136,7 +136,6 @@ public class Patient {
 
 	public static class Builder {
 
-		private AtomicInteger idTemplate = new AtomicInteger(1);
 		private String id;
 		private String instance;
 		private String lastname;
@@ -152,9 +151,10 @@ public class Patient {
 		private LocalDateTime dischargeDateTime;
 		private int lengthOfStay;
 
-		
+	
+	
 		public Builder id(String id) {
-			this.id = "HL7_" + String.format("%09d", idTemplate.getAndIncrement());
+			this.id = id;
 			return this;
 		}
 

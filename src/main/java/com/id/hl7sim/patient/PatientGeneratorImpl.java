@@ -1,11 +1,12 @@
 package com.id.hl7sim.patient;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicInteger;
 import com.id.hl7sim.xml.Departments;
 import com.id.hl7sim.xml.Firstnames;
 import com.id.hl7sim.xml.Lastnames;
@@ -18,7 +19,9 @@ public class PatientGeneratorImpl implements PatientGenerator {
 	private static Departments departments;
 	private static Wards wards;
 	private static List<Patient> allPatients;
-
+	private static AtomicInteger idTemplate = new AtomicInteger(0);
+	
+	
 	public PatientGeneratorImpl(Firstnames firstnames, Lastnames lastnames, Departments departments, Wards wards) {
 
 		PatientGeneratorImpl.firstnames = firstnames;
@@ -74,6 +77,8 @@ public class PatientGeneratorImpl implements PatientGenerator {
 	@Override
 	public Patient randomizeNewPatient() {
 		return new Patient.Builder()
+				
+				.id(String.format("%09d", idTemplate.incrementAndGet()))
 				.lastname(getRandomLastName())
 				.firstname(getRandomFirstName())
 				.gender(getRandomGender())
@@ -158,10 +163,8 @@ public class PatientGeneratorImpl implements PatientGenerator {
 	 * @see com.id.hl7sim.PatientGenerator#setUniqueInstance(com.id.hl7sim.xml.Departments)
 	 */
 	@Override
-	public void setUniqueInstance(Patient patient) {
-		patient.setInstance(patient.getId() + "_" + LocalDateTime.now().getYear() + LocalDate.now().getMonthValue() + LocalDate.now().getDayOfMonth() 
-				+ LocalDateTime.now().getHour() + LocalDateTime.now().getMinute() + LocalDateTime.now().getSecond());
-
+	public void setUniqueInstance(Patient patient) {	
+		patient.setInstance(patient.getId() + "_" + UUID.randomUUID().toString().substring(0,5));
 		
 	}
 	

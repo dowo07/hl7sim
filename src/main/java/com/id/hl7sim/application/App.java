@@ -38,7 +38,7 @@ public class App {
 
 		PatientGenerator myGenerator = new PatientGeneratorImpl(firstnames, lastnames, departments, wards);
 
-		List<Patient> allPatients = myGenerator.createRandomPatients(10); 
+		List<Patient> allPatients = myGenerator.createRandomPatients(100); 
 	
 		ComboPooledDataSource cpds = DatabaseManager.provideDataSource("MSSql"); 
 
@@ -55,6 +55,14 @@ public class App {
 		Hospital myHospital = new HospitalImpl(20, myHl7Builder, myHL7Sender, myPatientRepository);
 		
 		myHospital.admitPatient();
+		myHospital.admitPatient();
+		myHospital.admitPatient();
+		myHospital.admitPatient();
+		
+		myHospital.transferPatient();
+		
+		myHospital.dischargePatient();
+		myHospital.dischargePatient();
 	} 
  
 	
