@@ -5,7 +5,6 @@ import javax.xml.bind.JAXB;
 import com.id.hl7sim.database.DatabaseManager;
 import com.id.hl7sim.database.PatientRepository;
 import com.id.hl7sim.database.PatientRepositoryMSSqlImpl;
-import com.id.hl7sim.database.PatientRepositoryMySqlImpl;
 import com.id.hl7sim.hl7.HL7Builder;
 import com.id.hl7sim.hl7.HL7BuilderImpl;
 import com.id.hl7sim.hl7.HL7Endpoint;
@@ -63,11 +62,12 @@ public class App {
 
 		HL7Sender myHL7Sender = new HL7SenderImpl(hl7endpoint);
 
-		Hospital myHospital = new HospitalImpl(100, myHl7Builder, myHL7Sender, myPatientRepository);
+		Hospital myHospital = new HospitalImpl(150, myHl7Builder, myHL7Sender, myPatientRepository);
 		
-//		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulatorImpl(myHospital, 1000);
-//		
-//		myHospitalTimeSimulator.simulateDay();
+		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulatorImpl(myHospital, 10000);
+		
+		myHospitalTimeSimulator.simulateDay();
+		
 	} 
  
 	
