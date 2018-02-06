@@ -78,7 +78,7 @@ public class PatientGeneratorImpl implements PatientGenerator {
 	public Patient randomizeNewPatient() {
 		return new Patient.Builder()
 				
-				.id(String.format("%09d", idTemplate.incrementAndGet()))
+				.id("HL7_" + String.format("%09d", idTemplate.incrementAndGet()))
 				.lastname(getRandomLastName())
 				.firstname(getRandomFirstName())
 				.gender(getRandomGender())
@@ -164,7 +164,7 @@ public class PatientGeneratorImpl implements PatientGenerator {
 	 */
 	@Override
 	public void setUniqueInstance(Patient patient) {	
-		patient.setInstance(patient.getId() + "_" + UUID.randomUUID().toString().substring(0,5));
+		patient.setInstance("HL7_" + patient.getId() + "_" + UUID.randomUUID().toString().substring(0,5));
 		
 	}
 	

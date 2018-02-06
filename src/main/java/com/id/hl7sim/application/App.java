@@ -30,7 +30,6 @@ public class App {
 
 	public static void main(String[] args) {
 		
-		
 		/**
 		 * TODO:
 		 * 
@@ -41,6 +40,7 @@ public class App {
 		 * dbTests
 		 * 
 		 */
+		
 		Departments departments = JAXB.unmarshal(ClassLoader.getSystemResource("departments.xml"), Departments.class);
 		Wards wards = JAXB.unmarshal(ClassLoader.getSystemResource("wards.xml"), Wards.class);
 		Lastnames lastnames = JAXB.unmarshal(ClassLoader.getSystemResource("lastnames.xml"), Lastnames.class);
@@ -64,7 +64,7 @@ public class App {
 
 		Hospital myHospital = new HospitalImpl(150, myHl7Builder, myHL7Sender, myPatientRepository);
 		
-		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulatorImpl(myHospital, 10000);
+		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulatorImpl(myHospital, 3000);
 		
 		myHospitalTimeSimulator.simulateDay();
 		
