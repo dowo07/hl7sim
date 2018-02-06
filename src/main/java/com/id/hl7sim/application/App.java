@@ -5,7 +5,6 @@ import javax.xml.bind.JAXB;
 import com.id.hl7sim.database.DatabaseManager;
 import com.id.hl7sim.database.PatientRepository;
 import com.id.hl7sim.database.PatientRepositoryMSSqlImpl;
-import com.id.hl7sim.database.PatientRepositoryMySqlImpl;
 import com.id.hl7sim.hl7.HL7Builder;
 import com.id.hl7sim.hl7.HL7BuilderImpl;
 import com.id.hl7sim.hl7.HL7Endpoint;
@@ -38,7 +37,7 @@ public class App {
 
 		PatientGenerator myGenerator = new PatientGeneratorImpl(firstnames, lastnames, departments, wards);
 
-		List<Patient> allPatients = myGenerator.createRandomPatients(10); 
+		List<Patient> allPatients = myGenerator.createRandomPatients(500); 
 	
 		ComboPooledDataSource cpds = DatabaseManager.provideDataSource("MSSql"); 
 
@@ -52,9 +51,12 @@ public class App {
 
 		HL7Sender myHL7Sender = new HL7SenderImpl(hl7endpoint);
 
-		Hospital myHospital = new HospitalImpl(20, myHl7Builder, myHL7Sender, myPatientRepository);
+		Hospital myHospital = new HospitalImpl(150, myHl7Builder, myHL7Sender, myPatientRepository);
 		
-		myHospital.admitPatient();
+		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulatorImpl(myHospital, 10000);
+		
+		myHospitalTimeSimulator.simulateDay();
+		
 	} 
  
 	
