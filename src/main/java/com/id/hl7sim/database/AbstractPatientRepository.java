@@ -42,9 +42,10 @@ public abstract class AbstractPatientRepository implements PatientRepository {
 		patient.setWard(patientGenerator.getRandomWard());
 		patient.setAdmissionDateTime(LocalDateTime.now());
 		patient.setStatus("I");
+		patientGenerator.setUniqueInstance(patient);
 		template.update(
-				"INSERT INTO tbl_inpatients(id, ward, department, admissionDate, patientStatus) VALUES(?,?,?,?,?)",
-				patient.getId(), patient.getWard(), patient.getDepartment(), patient.getAdmissionDateTime().toString(),
+				"INSERT INTO tbl_inpatients(instance, id, ward, department, admissionDate, patientStatus) VALUES(?,?,?,?,?,?)",
+				patient.getInstance(), patient.getId(), patient.getWard(), patient.getDepartment(), patient.getAdmissionDateTime().toString(),
 				patient.getStatus());
 		return patient;
 	}
@@ -85,6 +86,13 @@ public abstract class AbstractPatientRepository implements PatientRepository {
 						+ patient.getDepartment() + "', '" + patient.getAdmissionDateTime().toString() + "', '"
 						+ patient.getDischargeDateTime().toString() + "')");
 	}
+	
+//	public boolean isPatientInHospital(Patient patient) {
+//		SELECT EXISTS(SELECT * FROM table1 WHERE ...)
+//		return true;
+//	}
+	
+	
 	
 	public LocalDate parseBirthday(String birthday) {
 		LocalDate localDate = LocalDate.parse(birthday);

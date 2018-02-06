@@ -96,7 +96,7 @@ public class PatientRepositoryMySqlImplTest {
 		testPatient = testPatientRepository.dischargeRandomPatient();
 
 		assertTrue(testPatient.isValid());
-		assertTrue(testPatient.getInstance() != 0);
+		assertTrue(testPatient.getInstance() != "0");
 	}
 
 	@Test

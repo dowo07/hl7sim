@@ -203,7 +203,7 @@ public class HL7BuilderImpl implements HL7Builder {
 			evn.getEventTypeCode().setValue("A01");
 		}
 	}
-
+	
 	private void setPidSegment(PID pid, Patient patient) throws DataTypeException {
 		pid.getPatientIdentifierList(0).getCx1_ID().setValue(String.valueOf(patient.getId()));
 		pid.getAdministrativeSex().setValue(patient.getGender());

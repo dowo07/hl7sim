@@ -1,6 +1,7 @@
 package com.id.hl7sim.patient;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -151,6 +152,17 @@ public class PatientGeneratorImpl implements PatientGenerator {
 	public String getRandomWard() {
 		
 		return departments.getDepartments().get(0).getWard();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.id.hl7sim.PatientGenerator#setUniqueInstance(com.id.hl7sim.xml.Departments)
+	 */
+	@Override
+	public void setUniqueInstance(Patient patient) {
+		patient.setInstance(patient.getId() + "_" + LocalDateTime.now().getYear() + LocalDate.now().getMonthValue() + LocalDate.now().getDayOfMonth() 
+				+ LocalDateTime.now().getHour() + LocalDateTime.now().getMinute() + LocalDateTime.now().getSecond());
+
+		
 	}
 	
 }

@@ -1,42 +1,41 @@
 package com.id.hl7sim.patient;
 
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
 public class Patient {
 
-	private AtomicInteger id = new AtomicInteger(0000000001);
-	private AtomicInteger instance = new AtomicInteger(1);
+	private String id;
+	private String instance;
 	private String lastname;
 	private String firstname;
 	private String gender;
 	private LocalDate birthday;
 	private String status;
-	private String department; 
+	private String department;
 	private String ward;
 	private String priorDepartment;
 	private String priorWard;
 	private LocalDateTime admissionDateTime;
 	private LocalDateTime dischargeDateTime;
 	private int lengthOfStay;
+
 	
-	public int getId() {
-		return id.get(); 
+	public String getId() {
+		return id;
 	}
 
-	public void setId(int id) {
-		this.id.set(id);
-	} 
-
-	public int getInstance() {
-		return instance.get();
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public void setInstance(int instance) {
-		this.instance.set(instance);;
+	public String getInstance() {
+		return instance;
+	}
+
+	public void setInstance(String instance) {
+		this.instance = instance;
 	}
 
 	public String getLastname() {
@@ -86,7 +85,7 @@ public class Patient {
 	public void setWard(String ward) {
 		this.ward = ward;
 	}
-	
+
 	public String getDepartment() {
 		return department;
 	}
@@ -95,7 +94,6 @@ public class Patient {
 		this.department = department;
 	}
 
-	
 	public String getPriorDepartment() {
 		return priorDepartment;
 	}
@@ -137,9 +135,10 @@ public class Patient {
 	}
 
 	public static class Builder {
-		
-		private AtomicInteger id = new AtomicInteger(1);
-		private AtomicInteger instance = new AtomicInteger(1);
+
+		private AtomicInteger idTemplate = new AtomicInteger(1);
+		private String id;
+		private String instance;
 		private String lastname;
 		private String firstname;
 		private String gender;
@@ -153,13 +152,14 @@ public class Patient {
 		private LocalDateTime dischargeDateTime;
 		private int lengthOfStay;
 
-		public Builder id(int id) {
-			this.id.set(id);;
+		
+		public Builder id(String id) {
+			this.id = "HL7_" + String.format("%09d", idTemplate.getAndIncrement());
 			return this;
 		}
 
-		public Builder instance(int instance) {
-			this.instance.set(instance);
+		public Builder instance(String instance) {
+			this.instance = instance;
 			return this;
 		}
 
@@ -197,17 +197,17 @@ public class Patient {
 			this.department = department;
 			return this;
 		}
-		
+
 		public Builder priorWard(String priorWard) {
 			this.priorDepartment = priorWard;
 			return this;
 		}
-		
+
 		public Builder priorDepartment(String priorDepartment) {
 			this.priorDepartment = priorDepartment;
 			return this;
 		}
-		
+
 		public Builder admissionDateTime(LocalDateTime admissionDateTime) {
 			this.admissionDateTime = admissionDateTime;
 			return this;
@@ -245,34 +245,25 @@ public class Patient {
 		dischargeDateTime = builder.dischargeDateTime;
 		lengthOfStay = builder.lengthOfStay;
 	}
-	
+
 	public static Patient newInstance(Patient patient) {
-		return new Patient.Builder()
-				.id(patient.getId())
-				.instance(patient.getInstance())
-				.lastname(patient.getLastname())
-				.firstname(patient.getFirstname())
-				.gender(patient.getGender())
-				.birthday(patient.getBirthday())
-				.status(patient.getStatus())
-				.ward(patient.getWard())
-				.department(patient.getDepartment())
-				.priorWard(patient.priorWard)
-				.priorDepartment(patient.priorDepartment)
-				.admissionDateTime(patient.getAdmissionDateTime())
-				.dischargeDateTime(patient.getDischargeDateTime())
-				.lengthOfStay(patient.getLengthOfStay())
-				.build();
+		return new Patient.Builder().id(patient.getId()).instance(patient.getInstance()).lastname(patient.getLastname())
+				.firstname(patient.getFirstname()).gender(patient.getGender()).birthday(patient.getBirthday())
+				.status(patient.getStatus()).ward(patient.getWard()).department(patient.getDepartment())
+				.priorWard(patient.priorWard).priorDepartment(patient.priorDepartment)
+				.admissionDateTime(patient.getAdmissionDateTime()).dischargeDateTime(patient.getDischargeDateTime())
+				.lengthOfStay(patient.getLengthOfStay()).build();
 	}
-	
+
 	public boolean isValid() {
-		if(this.getLastname() == null || this.getFirstname() == null || this.getGender() == null || this.getBirthday() == null ||
-		   this.getLastname() == ""   || this.getFirstname() == ""   || this.getGender() == "") {
+		if (this.getLastname() == null || this.getFirstname() == null || this.getGender() == null
+				|| this.getBirthday() == null || this.getLastname() == "" || this.getFirstname() == ""
+				|| this.getGender() == "") {
 			return false;
 		}
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "| ID: " + this.id + " |CASE-ID: " + this.instance + " | NAME: " + this.firstname + " " + this.lastname
@@ -281,5 +272,5 @@ public class Patient {
 				+ this.department + " | WARD: " + this.ward + " | Status: " + this.status + " |Length of Stay: "
 				+ this.lengthOfStay;
 	}
-	
+
 }

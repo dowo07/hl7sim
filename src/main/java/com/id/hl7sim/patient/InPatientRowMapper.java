@@ -12,8 +12,8 @@ public class InPatientRowMapper implements RowMapper<Patient> {
 	public Patient mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
 		return new Patient.Builder()
-				.instance(rs.getInt("instance"))
-				.id(rs.getInt("id"))
+				.instance(rs.getString("instance"))
+				.id(rs.getString("id"))
 				.ward(rs.getString("ward"))
 				.department(rs.getString("department"))
 				.admissionDateTime(parseLocalDateTime(rs.getString("admissionDate")))
