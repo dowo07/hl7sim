@@ -32,12 +32,9 @@ public class App {
 		
 		/**
 		 * TODO:
-		 * 
-		 * isPatientInHospital
 		 * borders for capacity working?
 		 * high speed socket exception
-		 * dbTests
-		 * 
+		 * fix dbTests
 		 */
 		
 		Departments departments = JAXB.unmarshal(ClassLoader.getSystemResource("departments.xml"), Departments.class);
@@ -47,7 +44,7 @@ public class App {
 
 		PatientGenerator myGenerator = new PatientGeneratorImpl(firstnames, lastnames, departments, wards);
 
-		List<Patient> allPatients = myGenerator.createRandomPatients(500); 
+		List<Patient> allPatients = myGenerator.createRandomPatients(303); 
 	
 		ComboPooledDataSource cpds = DatabaseManager.provideDataSource("MSSql"); 
 
@@ -61,9 +58,9 @@ public class App {
 
 		HL7Sender myHL7Sender = new HL7SenderImpl(hl7endpoint);
 
-		Hospital myHospital = new HospitalImpl(150, myHl7Builder, myHL7Sender, myPatientRepository);
+		Hospital myHospital = new HospitalImpl(50, myHl7Builder, myHL7Sender, myPatientRepository);
 		
-		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulatorImpl(myHospital, 3000);
+		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulatorImpl(myHospital, 10000);
 		
 		myHospitalTimeSimulator.simulateDay();
 		

@@ -23,6 +23,6 @@ public interface PatientGenerator {
 
 	String getRandomWard();
 	
-	void setUniqueInstance(Patient patient);
+	String setUniqueInstance();
 
 }

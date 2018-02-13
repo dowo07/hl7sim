@@ -59,6 +59,7 @@ public class HospitalTimeSimulatorImpl implements HospitalTimeSimulator {
 	 */
 	@Override
 	public void initHospital() {
+		//implement check if patients < capacity
 		int patientsToAdmit = this.getNumberOfpatientsForInitializing();
 		for(int i = 0; i< patientsToAdmit; i++) {
 			this.hospital.admitPatient();

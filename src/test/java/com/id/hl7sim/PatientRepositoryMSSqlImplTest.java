@@ -77,7 +77,7 @@ public class PatientRepositoryMSSqlImplTest {
 		cpds.setMaxStatements(100);
 		
 		testPatientRepository = new PatientRepositoryMSSqlImpl(cpds, testPatientGenerator);
-		
+		testPatientRepository.insertListOfPatients(testBothPatients);
 		testPatientRepository.admitRandomPatient();
 		
 		myMock = Mockito.mock(PatientRepositoryMSSqlImpl.class);

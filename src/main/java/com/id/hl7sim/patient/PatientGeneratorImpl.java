@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 import com.id.hl7sim.xml.Departments;
@@ -20,6 +19,7 @@ public class PatientGeneratorImpl implements PatientGenerator {
 	private static Wards wards;
 	private static List<Patient> allPatients;
 	private static AtomicInteger idTemplate = new AtomicInteger(0);
+	private static AtomicInteger caseNumber = new AtomicInteger(1);
 	
 	
 	public PatientGeneratorImpl(Firstnames firstnames, Lastnames lastnames, Departments departments, Wards wards) {
@@ -78,7 +78,7 @@ public class PatientGeneratorImpl implements PatientGenerator {
 	public Patient randomizeNewPatient() {
 		return new Patient.Builder()
 				
-				.id("HL7_" + String.format("%09d", idTemplate.incrementAndGet()))
+				.id("HL7SIM_" + String.format("%09d", idTemplate.incrementAndGet()))
 				.lastname(getRandomLastName())
 				.firstname(getRandomFirstName())
 				.gender(getRandomGender())
@@ -163,9 +163,8 @@ public class PatientGeneratorImpl implements PatientGenerator {
 	 * @see com.id.hl7sim.PatientGenerator#setUniqueInstance(com.id.hl7sim.xml.Departments)
 	 */
 	@Override
-	public void setUniqueInstance(Patient patient) {	
-		patient.setInstance(patient.getId() + "_" + UUID.randomUUID().toString().substring(0,5));
-		
+	public String setUniqueInstance() {	
+		return String.valueOf(caseNumber.getAndIncrement());
 	}
 	
 }

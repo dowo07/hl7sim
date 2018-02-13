@@ -1,11 +1,13 @@
 package com.id.hl7sim.patient;
 
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
 public class Patient {
 
+	
 	private String id;
 	private String instance;
 	private String lastname;
@@ -25,7 +27,7 @@ public class Patient {
 	public String getId() {
 		return id;
 	}
-
+	
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -133,9 +135,11 @@ public class Patient {
 	public void setLengthOfStay(int lengthOfStay) {
 		this.lengthOfStay = lengthOfStay;
 	}
+	
 
 	public static class Builder {
 
+		
 		private String id;
 		private String instance;
 		private String lastname;
@@ -150,9 +154,8 @@ public class Patient {
 		private LocalDateTime admissionDateTime;
 		private LocalDateTime dischargeDateTime;
 		private int lengthOfStay;
+	
 
-	
-	
 		public Builder id(String id) {
 			this.id = id;
 			return this;
@@ -222,7 +225,7 @@ public class Patient {
 			this.lengthOfStay = lengthOfStay;
 			return this;
 		}
-
+	
 		public Patient build() {
 			return new Patient(this);
 		}
@@ -244,6 +247,7 @@ public class Patient {
 		admissionDateTime = builder.admissionDateTime;
 		dischargeDateTime = builder.dischargeDateTime;
 		lengthOfStay = builder.lengthOfStay;
+		
 	}
 
 	public static Patient newInstance(Patient patient) {

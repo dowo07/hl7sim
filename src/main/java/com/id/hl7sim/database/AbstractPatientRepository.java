@@ -3,11 +3,8 @@ package com.id.hl7sim.database;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import javax.sql.DataSource;
-
 import org.springframework.jdbc.core.JdbcTemplate;
-
 import com.id.hl7sim.patient.Patient;
 import com.id.hl7sim.patient.PatientGenerator;
 import com.id.hl7sim.patient.PatientRowMapper;
@@ -42,7 +39,7 @@ public abstract class AbstractPatientRepository implements PatientRepository {
 		patient.setWard(patientGenerator.getRandomWard());
 		patient.setAdmissionDateTime(LocalDateTime.now());
 		patient.setStatus("I");
-		patientGenerator.setUniqueInstance(patient);
+		patient.setInstance(patient.getId() + "_" + patientGenerator.setUniqueInstance() + "_" + LocalDate.now().getYear());
 		template.update(
 				"INSERT INTO tbl_inpatients(instance, id, ward, department, admissionDate, patientStatus) VALUES(?,?,?,?,?,?)",
 				patient.getInstance(), patient.getId(), patient.getWard(), patient.getDepartment(), patient.getAdmissionDateTime().toString(),
