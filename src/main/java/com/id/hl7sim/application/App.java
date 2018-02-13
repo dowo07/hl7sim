@@ -32,8 +32,6 @@ public class App {
 		
 		/**
 		 * TODO:
-		 * borders for capacity working?
-		 * high speed socket exception
 		 * fix dbTests
 		 */
 		
@@ -44,7 +42,7 @@ public class App {
 
 		PatientGenerator myGenerator = new PatientGeneratorImpl(firstnames, lastnames, departments, wards);
 
-		List<Patient> allPatients = myGenerator.createRandomPatients(303); 
+		List<Patient> allPatients = myGenerator.createRandomPatients(100); 
 	
 		ComboPooledDataSource cpds = DatabaseManager.provideDataSource("MSSql"); 
 
@@ -60,7 +58,7 @@ public class App {
 
 		Hospital myHospital = new HospitalImpl(50, myHl7Builder, myHL7Sender, myPatientRepository);
 		
-		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulatorImpl(myHospital, 10000);
+		HospitalTimeSimulator myHospitalTimeSimulator = new HospitalTimeSimulatorImpl(myHospital, 5000);
 		
 		myHospitalTimeSimulator.simulateDay();
 		
