@@ -164,7 +164,7 @@ public class PatientGeneratorImpl implements PatientGenerator {
 	 */
 	@Override
 	public void setUniqueInstance(Patient patient) {	
-		patient.setInstance("HL7_" + patient.getId() + "_" + UUID.randomUUID().toString().substring(0,5));
+		patient.setInstance(patient.getId() + "_" + UUID.randomUUID().toString().substring(0,5));
 		
 	}
 	

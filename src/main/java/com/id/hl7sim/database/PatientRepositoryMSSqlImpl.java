@@ -3,7 +3,6 @@ package com.id.hl7sim.database;
 import java.time.LocalDate;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
-
 import com.id.hl7sim.patient.InPatientRowMapper;
 import com.id.hl7sim.patient.Patient;
 import com.id.hl7sim.patient.PatientGenerator;
@@ -22,11 +21,14 @@ public class PatientRepositoryMSSqlImpl extends AbstractPatientRepository implem
 		this.patientGenerator = patientGenerator;
 		this.template = new JdbcTemplate(dataSource);
 	} 
-
-
+	
 	public Patient getRandomPatient() {
+		Patient patient = null;
+		do {
 		String sql = "SELECT TOP 1 * FROM tbl_patient ORDER BY NEWID()";
-		Patient patient = (Patient) template.queryForObject(sql, new PatientRowMapper());
+		patient = (Patient) template.queryForObject(sql, new PatientRowMapper());
+		}
+		while(isPatientInHospital(patient));
 		return patient;
 	}
 
@@ -47,6 +49,12 @@ public class PatientRepositoryMSSqlImpl extends AbstractPatientRepository implem
 		return template.queryForObject(sql, Integer.class);
 	}
 
+	public boolean isPatientInHospital(Patient patient) {
+		String sql = "SELECT COUNT(id) AS numberOfHits FROM tbl_inpatients WHERE id = '" + patient.getId() + "'";
+		int result =  template.queryForObject(sql, Integer.class);
+		return result > 0 ? true : false;
+	}
+	
 	public LocalDate parseBirthday(String birthday) {
 		LocalDate localDate = LocalDate.parse(birthday);
 		return localDate;

@@ -35,7 +35,6 @@ public class App {
 		 * 
 		 * isPatientInHospital
 		 * borders for capacity working?
-		 * hl7 prefix
 		 * high speed socket exception
 		 * dbTests
 		 * 

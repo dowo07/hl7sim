@@ -86,14 +86,7 @@ public abstract class AbstractPatientRepository implements PatientRepository {
 						+ patient.getDepartment() + "', '" + patient.getAdmissionDateTime().toString() + "', '"
 						+ patient.getDischargeDateTime().toString() + "')");
 	}
-	
-//	public boolean isPatientInHospital(Patient patient) {
-//		SELECT EXISTS(SELECT * FROM table1 WHERE ...)
-//		return true;
-//	}
-	
-	
-	
+
 	public LocalDate parseBirthday(String birthday) {
 		LocalDate localDate = LocalDate.parse(birthday);
 		return localDate;
